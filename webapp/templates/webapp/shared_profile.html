@@ -1,0 +1,142 @@
+{% extends "webapp/page_base.html" %}
+
+{% block "page-theme" %} orange-theme {% endblock %}
+
+{% block "page-header" %}
+<h1> Profiel van {{profile.profile_owner}} ({{profile.student_id}})</h1>
+{% endblock %}
+
+
+{% block "main-nav" %}
+{% load webapp_tags %}
+{% if request.user|has_group:"Leerling" %}
+<li>
+  <a href="{% url 'profile' %}">
+    Mijn profiel
+  </a>
+</li>
+{% endif %}
+<li>
+  <a class="active-nav-link"
+     href="{% url 'shared_profiles' %}">
+    Profielen gedeeld met mij
+  </a>
+</li>
+<li>
+  <a href="{% url 'theory'%}">
+    Leer-Kracht-Lijn theorie
+  </a>
+</li>
+{% endblock %}
+
+
+{% block "main-content" %}
+
+<section id="ps_charts" class="eval-charts">
+  <a href="{% url 'shared_profiles' %}" >
+    <i class="fas fa-long-arrow-alt-left"></i> Terug naar overzicht
+  </a>
+  <header>
+    <h1>
+      {{dimensions.0.name}}
+    </h1>
+  </header>
+  <div class="row">
+  {% for category in dimensions.0.lkl_category_set.all %}
+    <button class="tabbtn ps-chart-btn"
+            onclick="showTab(this, '.ps-chart-btn', '#ps-chart-{{category.number}}', '.ps-chart')">
+      {{ category.name }}
+    </button>
+  {% endfor %}
+  </div>
+
+  <figure id="ps-chart-1" class="ps-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+  <figure id="ps-chart-2" class="ps-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+  <figure id="ps-chart-3" class="ps-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+</section>
+
+<section id="bpb_charts" class="eval-charts">
+  <header>
+    <h1>
+      {{dimensions.1.name}}
+    </h1>
+  </header>
+  <div class="row">
+  {% for category in dimensions.1.lkl_category_set.all %}
+    <button class="tabbtn bpb-chart-btn"
+            onclick="showTab(this, '.bpb-chart-btn', '#bpb-chart-{{category.number}}', '.bpb-chart')">
+      {{ category.name }}
+    </button>
+  {% endfor %}
+  </div>
+
+  <figure id="bpb-chart-1" class="bpb-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+  <figure id="bpb-chart-2" class="bpb-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+  <figure id="bpb-chart-3" class="bpb-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+  <figure id="bpb-chart-4" class="bpb-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+</section>
+
+<section id="pi-answers">
+  <header>
+    <h1>
+      {{dimensions.2.name}}
+    </h1>
+  </header>
+
+  <section>
+    <header>
+      <h1>Zicht krijgen en reflecteren op mijn identiteit</h1>
+    </header>
+    <p>
+      {{profile.professional_identity_profile.answer_q1}}
+    </p>
+  </section>
+
+  <section>
+    <header>
+      <h1>Verhouding van mijn identiteit tot anderen</h1>
+    </header>
+    <p>
+      {{profile.professional_identity_profile.answer_q2}}
+    </p>
+  </section>
+</section>
+
+{% endblock %}
+
+
+{% block "scripts" %}
+{% load static %}
+  <script type="text/javascript">
+    const levelMapping = {"B" : 1, "IO" : 2, "S" : 3, "BC" : 4, "PC" :5};
+    let psLevelValues = {};
+    let bpbLevelValues = {};
+    {% for section in ps_profile %}
+      psLevelValues["{{section.1}}"] = levelMapping["{{section.2}}"];
+    {% endfor %}
+    {% for section in bpb_profile %}
+      bpbLevelValues["{{section.1}}"] = levelMapping["{{section.2}}"];
+    {% endfor %}
+  </script>
+  <script type="text/javascript" src="{% static 'webapp/js/evalGraphs.js' %}"></script>
+  <script type="text/javascript">
+    const firstPSChartBtn = document.querySelector(".ps-chart-btn");
+    const firstBPBChartBtn = document.querySelector(".bpb-chart-btn");
+    showTab(firstPSChartBtn, '.ps-chart-btn', '#ps-chart-1', '.ps-chart');
+    showTab(firstBPBChartBtn, '.bpb-chart-btn', '#bpb-chart-1', '.bpb-chart');
+  </script>
+{% endblock %}

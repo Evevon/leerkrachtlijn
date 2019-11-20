@@ -1,0 +1,47 @@
+{% extends "registration/registration_base.html" %}
+{% block 'auth' %}
+  {% if form.errors %}
+  <header class="form-errors">
+    <p>Er is iets fout gegaan tijdens het inloggen. Los de volgende problemen
+    op en probeer opnieuw in te loggen:</p>
+    <ul>
+      <li>Je gebruikersnaam en wachtwoord komen niet overeen.</li>
+    </ul>
+  </header>
+  {% endif %}
+
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>Jouw account heeft geen toegang tot deze pagina. Login met een account
+      dat de rechten heeft om deze pagina te bekijken.</p>
+    {% else %}
+      <p>Login om deze pagina te bekijken.</p>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+
+{% block 'content' %}
+  <form method="post" action="{% url 'login' %}">
+  {% csrf_token %}
+
+    <fieldset>
+      <legend>Inloggegevens</legend>
+      <p>
+        {{ form.username.label_tag }}
+        {{ form.username }}
+      </p>
+      <p>
+        {{ form.password.label_tag }}
+        {{ form.password }}
+      </p>
+    </fieldset>
+
+  <input type="submit" value="login" class="actionbtn"/>
+  <input type="hidden" name="next" value="{{ next }}" />
+  </form>
+
+  <a href="{% url 'password_reset' %}">
+    Wachtwoord vergeten? <i class="fas fa-long-arrow-alt-right"></i>
+  </a>
+{% endblock %}

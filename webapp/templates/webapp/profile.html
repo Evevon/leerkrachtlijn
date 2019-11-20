@@ -1,0 +1,94 @@
+{% extends "webapp/page_base.html" %}
+
+{% block "page-header" %}
+<h1>Hoofdpagina</h1>
+{% endblock %}
+
+
+{% block "main-nav" %}
+{% load webapp_tags %}
+{% if request.user|has_group:"Leerling" %}
+<li>
+  <a class="active-nav-link" href="{% url 'profile' %}">
+    Mijn profiel
+  </a>
+</li>
+{% endif %}
+{% if request.user|has_group:"Docent" %}
+<li><a href="{% url 'shared_profiles' %}">Profielen gedeeld met mij</a></li>
+{% endif %}
+<li><a href="{% url 'theory'%}">Leer-Kracht-Lijn theorie</a></li>
+{% endblock %}
+
+{% block "secondary-nav" %}
+<nav id="secondary-nav" class="darktheme">
+  <ul id="secondary-nav-links" class="row navbar">
+    <li>
+      <a onclick="setActive('#secondary-nav-links', this)"
+         href="#overzicht">
+        Persoonlijke Opties en Delen
+      </a>
+    </li>
+    {% for dimension in dimensions %}
+    <li>
+      <a onclick="setActive('#secondary-nav-links', this)"
+         href="#dimensie-{{dimension.number}}">
+        {{dimension.name}}
+      </a>
+    </li>
+    {% endfor %}
+    <li>
+      <a onclick="setActive('#secondary-nav-links', this)"
+         href="#evaluatie_overzicht">
+        Profiel evaluatie
+      </a>
+    </li>
+  </ul>
+</nav>
+{% endblock %}
+
+{% block "main-content" %}
+<article id="overzicht" class="content-section">
+  {% include "webapp/includes/profile_overview.html" %}
+</article>
+<article id="dimensie-{{dimensions.0.number}}" class="default-hidden content-section">
+  {% include "webapp/includes/ps_dimension.html" %}
+</article>
+<article id="dimensie-{{dimensions.1.number}}" class="default-hidden content-section">
+  {% include "webapp/includes/bpb_dimension.html" %}
+</article>
+<article id="dimensie-{{dimensions.2.number}}" class="default-hidden content-section">
+  {% include "webapp/includes/pi_dimension.html" %}
+</article>
+<article id="evaluatie_overzicht" class="default-hidden content-section">
+  {% include "webapp/includes/profile_evaluation.html" %}
+</article>
+{% endblock %}
+
+
+{% block "scripts" %}
+{% load static %}
+<script type="text/javascript">
+  const levelMapping = {"B" : 1, "IO" : 2, "S" : 3, "BC" : 4, "PC" :5};
+  let psLevelValues = {};
+  let bpbLevelValues = {};
+  {% for section in ps_profile %}
+    psLevelValues["{{section.1}}"] = levelMapping["{{section.2}}"];
+  {% endfor %}
+  {% for section in bpb_profile %}
+    bpbLevelValues["{{section.1}}"] = levelMapping["{{section.2}}"];
+  {% endfor %}
+</script>
+<script type="text/javascript" src="{% static 'webapp/js/showSection.js' %}"></script>
+<script type="text/javascript" src="{% static 'webapp/js/savedFoldWindow.js' %}"></script>
+<script type="text/javascript" src="{% static 'webapp/js/evalGraphs.js' %}"></script>
+<script type="text/javascript">
+  displaySavedFoldWindows('ps_profile_windows');
+  setActiveOnWindowLoad('#secondary-nav');
+  const firstPSChartBtn = document.querySelector(".ps-chart-btn");
+  const firstBPBChartBtn = document.querySelector(".bpb-chart-btn");
+  showTab(firstPSChartBtn, '.ps-chart-btn', '#ps-chart-1', '.ps-chart');
+  showTab(firstBPBChartBtn, '.bpb-chart-btn', '#bpb-chart-1', '.bpb-chart');
+  filterSharedTeachers();
+</script>
+{% endblock %}

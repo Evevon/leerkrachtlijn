@@ -1,0 +1,16 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Wachtwoord reset voor localhost:8000
+From: webmaster@localhost
+To: evelyne.van.oers@hotmail.com
+Date: Mon, 18 Nov 2019 15:34:48 -0000
+Message-ID: 
+ <157409128839.17651.6036203245993142085@evelyne-TravelMate-P2410-G2-M>
+
+Iemand heeft een wachtwoord reset aangevraagd voor het Leer-Kracht-Lijn account gekoppeld aan het e-mailadres evelyne.van.oers@hotmail.com.
+Heeft u geen wachtwoord reset aangevraagd? Neem dan zo spoedig mogelijk contact op met -contactpersoon-
+Klik de onderstaande link om het wachtwoord te resetten:
+http://localhost:8000/accounts/reset/MQ/5bj-5ebe444027365da3ad0e/
+
+-------------------------------------------------------------------------------

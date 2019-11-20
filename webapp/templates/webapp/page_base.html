@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Leer-Kracht-Lijn</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'webapp/css/master.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+          crossorigin="anonymous">
+  </head>
+  <body id="leerkrachtlijn" class="column {% block "page-theme" %}{% endblock %}">
+    <header id="page-header" class="row">
+      {% block "page-header" %}
+      <h1>Template header</h1>
+      {% endblock %}
+    </header>
+    <nav id="main-nav" class="navbar row">
+      <ul class="row flex-fill">
+        {% block "main-nav" %}
+        <li>
+          <a href="#">
+            Template nav 1
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            Template nav 2
+          </a>
+        </li>
+        {% endblock %}
+      </ul>
+      <a id="logout-link" href="{% url 'logout'%}?next={{request.path}}">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </nav>
+    {% block "secondary-nav" %}{% endblock %}
+    <main id="page-content" class="row flex-fill">
+      {% block "sidebar-nav" %}{% endblock %}
+      <div class="wrapper flex-fill">
+        {% block "main-content" %}
+        <section>
+          <header>
+            <h1>Template content</h1>
+          </header>
+          <p>
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+            commodo ligula eget dolor. Aenean massa. Cum sociis natoque
+            penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+            Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
+            aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
+            imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede
+            mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum
+            semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
+            porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
+            dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla
+            ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam
+            ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi.
+          </p>
+          <button class="actionbtn">Button voorbeeld</button>
+          <p>
+            <a href="#">Test</a>
+          </p>
+        </section>
+        {% endblock %}
+      </div>
+    </main>
+  </body>
+  <script type="text/javascript" src="{% static 'webapp/js/basicFunctions.js' %}"></script>
+  {% block "scripts" %}{% endblock %}
+</html>

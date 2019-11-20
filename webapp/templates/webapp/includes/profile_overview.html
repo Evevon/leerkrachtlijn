@@ -1,0 +1,77 @@
+<section>
+  <header>
+    <h1>Persoonsgegevens</h1>
+  </header>
+  <span>{{request.user}}</span>
+  <span>
+    Studenten id:
+    {% if request.user.student_id %}{{request.user.student_id}}
+    {% else %}id niet bekend.{% endif %}
+  </span>
+  <span>
+    Email: {{request.user.email}}
+    <button class="iconbtn" onclick="foldWindow('#edit-email')">
+      <i class="fas fa-pencil-alt"></i>
+    </button>
+  </span>
+  <form id="edit-email" class="editform column default-hidden"
+        action="{% url 'update_email' %}" method="POST">
+    {% csrf_token %}
+    <p>{{user_form.user_email}}</p>
+    <button class="actionbtn" type="submit">Wijzig email</button>
+  </form>
+</section>
+
+<section id="share-options">
+  <header>
+    <h1>Overzicht van docenten</h1>
+  </header>
+  <p>
+    Pas hier aan met welke docenten jij jouw profiel wilt delen. Docenten
+    die jij geselecteerd hebt om mee te delen krijgen toegang tot jouw
+    volledige Leer-Kracht-Lijn profiel.
+  </p>
+
+  <nav class="row darktheme">
+    <fieldset>
+      <input id="teachernav" type="text" placeholder="Zoek docent op naam.." onkeyup="filterSharedTeachers();">
+    </fieldset>
+    <fieldset>
+      Show personen met wie ik mijn profiel:
+      <input id="showshared" type="checkbox" checked="true" onchange="filterSharedTeachers();">
+      <label for="showshared">wel deel</label>
+      <input id="showunshared" type="checkbox" checked="true" onchange="filterSharedTeachers();">
+      <label for="showunshared">niet deel</label>
+    </fieldset>
+  </nav>
+  <ul id="teacher-overview" class="listing">
+    {% for teacher in all_teachers %}
+    {% if request.user.user_profile in teacher.accessable_user_profile.all %}
+    <li class="shared">
+      {{ teacher }}
+      <form action="{% url 'share_profile' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="teacherId" value="{{teacher.id}}">
+        <input type="hidden" name="share" value="false">
+        <button type="submit" title="stop met delen">
+          <i class="fas fa-check"></i>
+          Gedeeld
+        </button>
+      </form>
+    </li>
+    {% else %}
+    <li class="unshared">
+      {{ teacher }}
+      <form action="{% url 'share_profile' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="teacherId" value="{{teacher.id}}">
+        <input type="hidden" name="share" value="true">
+        <button type="submit">
+          Deel mijn profiel
+        </button>
+      </form>
+    </li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+</section>

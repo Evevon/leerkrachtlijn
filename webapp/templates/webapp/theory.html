@@ -1,0 +1,320 @@
+{% extends "webapp/page_base.html" %}
+
+{% block "page-theme" %} orange-theme {% endblock %}
+
+{% block "page-header" %}
+<h1>Leer-Kracht-Lijn theorie</h1>
+{% endblock %}
+
+{% block "main-nav" %}
+{% load webapp_tags %}
+{% if request.user|has_group:"Leerling" %}
+<li>
+  <a href="{% url 'profile' %}">
+    Mijn profiel
+  </a>
+</li>
+{% endif %}
+{% if request.user|has_group:"Docent" %}
+<li>
+  <a href="{% url 'shared_profiles' %}">
+    Profielen gedeeld met mij
+  </a>
+</li>
+{% endif %}
+<li>
+  <a class="active-nav-link"
+     href="{% url 'theory'%}">
+    Leer-Kracht-Lijn theorie
+  </a>
+</li>
+{% endblock %}
+
+{% block "sidebar-nav" %}
+<nav id="sidebar-nav">
+  <ul>
+    <li>
+      <i class="fas fa-chalkboard-teacher ps-color"></i>
+      <a onclick="setActive('#sidebar-nav', this, true)" href="#dimensie-{{dimensions.0.number}}" title="{{dimensions.0.short_description}}">
+          {{ dimensions.0.name }}
+      </a>
+      <ul id="dimension-{{dimensions.0.number}}-options" class="supercategory-list">
+        {% for category in dimensions.0.lkl_category_set.all %}
+        <li>
+          <a onclick="setActive('#sidebar-nav', this)" href="#categorie-{{dimensions.0.number}}-{{category.number}}"
+             title="{{category.short_description}}">
+            {{category.name}}
+          </a>
+          <button onclick="foldWindowChangeIcon(this, '#category-{{dimensions.0.number}}-{{category.number}}-options')">
+            <i class="fas fa-caret-right"></i>
+          </button>
+          <ul id="category-{{dimensions.0.number}}-{{category.number}}-options" class="subcategory-list default-hidden">
+            {% for subcategory in category.lkl_subcategory_set.all %}
+            <li>
+              <a onclick="setActive('#sidebar-nav', this)" href="#categorie-{{dimensions.0.number}}-{{category.number}}-{{subcategory.number}}"
+                 title="{{subcategory.short_description}}">
+              {{subcategory.name}}
+              </a>
+              <button onclick="foldWindowChangeIcon(this, '#category-{{dimensions.0.number}}-{{category.number}}-{{subcategory.number}}-options')">
+                <i class="fas fa-caret-right"></i>
+              </button>
+              <ul id="category-{{dimensions.0.number}}-{{category.number}}-{{subcategory.number}}-options" class="subsubcategory-list default-hidden">
+                {% for subsubcategory in subcategory.lkl_subsubcategory_set.all %}
+                <li>
+                  <a onclick="setActive('#sidebar-nav', this)" href="#categorie-{{dimensions.0.number}}-{{category.number}}-{{subcategory.number}}-{{subsubcategory.number}}"
+                     title="{{subsubcategory.short_description}}">
+                  {{subsubcategory.name}}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
+    </li>
+
+    <li>
+      <i class="fas fa-school bpb-color"></i>
+      <a onclick="setActive('#sidebar-nav', this, true)" href="#dimensie-{{dimensions.1.number}}" title="{{dimensions.1.short_description}}">
+          {{ dimensions.1.name }}
+      </a>
+      <ul id="dimension-{{dimensions.1.number}}-options" class="supercategory-list">
+        {% for category in dimensions.1.lkl_category_set.all %}
+        <li>
+          <a onclick="setActive('#sidebar-nav', this)" href="#categorie-{{dimensions.1.number}}-{{category.number}}"
+             title="{{category.short_description}}">
+            {{category.name}}
+          </a>
+          <button onclick="foldWindowChangeIcon(this, '#category-{{dimensions.1.number}}-{{category.number}}-options')">
+            <i class="fas fa-caret-right"></i>
+          </button>
+          <ul id="category-{{dimensions.1.number}}-{{category.number}}-options" class="subcategory-list default-hidden">
+            {% for subcategory in category.lkl_subcategory_set.all %}
+            <li>
+              <a onclick="setActive('#sidebar-nav', this)" href="#categorie-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}"
+                 title="{{subcategory.short_description}}">
+              {{subcategory.name}}
+              </a>
+              <button onclick="foldWindowChangeIcon(this, '#category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-options')">
+                <i class="fas fa-caret-right"></i>
+              </button>
+              <ul id="category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-options" class="subsubcategory-list default-hidden">
+                {% for subsubcategory in subcategory.lkl_subsubcategory_set.all %}
+                <li>
+                  <a onclick="setActive('#sidebar-nav', this)" href="#categorie-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{subsubcategory.number}}"
+                     title="{{subsubcategory.short_description}}">
+                  {{subsubcategory.name}}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
+    </li>
+
+    <li>
+      <i class="fas fa-id-card pi-color"></i>
+      <a onclick="setActive('#sidebar-nav', this)"
+         href="#dimensie-{{dimensions.2.number}}"
+         title="{{dimensions.2.short_description}}">
+        {{ dimensions.2.name }}
+      </a>
+      <ul class="supercategory-list">
+        {% for category in dimensions.2.lkl_category_set.all %}
+        <li>
+          <a onclick="setActive('#sidebar-nav', this)"
+             href="#categorie-{{dimensions.2.number}}-{{category.number}}"
+             title="{{category.short_description}}">
+            {{category.name}}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </li>
+  </ul>
+</nav>
+{% endblock %}
+
+
+{% block "main-content" %}
+<section id="overzicht" class="content-section">
+  <header>
+    <h1>Welkom bij het Leer-Kracht-Lijn theorieoverzicht!</h1>
+  </header>
+  <p>
+    Gebruik de navigatiebalk aan de linkerkant van het scherm om informatie te
+    bekijken over de verschillende categorieen van de Leer-Kracht-Lijn.
+  </p>
+
+  <p>
+    Dit is de Amsterdamse Leer-Kracht-Lijn van de Pabo HvA en Universitaire
+    Pabo van Amsterdam (UPvA). De Leer-kracht-lijn helpt de leerkracht in
+    opleiding om meer zicht te krijgen op de eigen ontwikkeling. In het primaire
+    proces en brede professionele basis is opgeschreven wat een leerkracht moet
+    kunnen. Hoe de leerkracht dit doet verschilt per onderwijscontext en
+    onderwijsvisie. Het onderdeel onderwijs ontwerpen is bijvoorbeeld anders
+    ingericht op een montessorischool dan op een daltonschool, net als deze
+    verschilt in een groep 1-2 of in een groep 8. De leerkracht (in opleiding)
+    stemt de hoe vraag af op de eigen onderwijscontext en op basis van theorie.
+  </p>
+
+  <p>
+    In de derde dimensie professionele identiteit komen alle aspecten van het
+    beroep leerkracht samen. De Pabo HvA en UPvA leiden in het specifiek op voor
+    lesgeven in de grootstedelijke context. Het begrip ‘diversiteit’ komt daarom
+    op verschillende plekken terug in de Amsterdamse Leer-Kracht-Lijn. We
+    hanteren de volgende definitie van ‘diversiteit':
+  </p>
+  <blockquote>
+    Met diversiteit in het Amsterdamse onderwijs bedoelen we de verscheidenheid
+    tussen de individuen van een groep, zowel in schoolse kennis, vaardigheden
+    en aanleg, als in achtergrond, afkomst, sociaaleconomische status,
+    levenservaring, waarden, taal, cultuur, religie, overtuigingen en voorkeuren.
+  </blockquote>
+</section>
+
+{% for dimension in dimensions %}
+<section id="dimensie-{{dimension.number}}" class="content-section">
+  <header>
+    <h1>{{dimension.name}}</h1>
+  </header>
+  <p>
+    {{dimension.description|safe}}
+  </p>
+</section>
+{% endfor %}
+{% for category in categories %}
+<section id="categorie-{{category.super_category.number}}-{{category.number}}"
+         class="content-section">
+  <header>
+    <h1>{{category.name}}</h1>
+  </header>
+  <p>
+    {{category.description|safe}}
+  </p>
+</section>
+{% endfor %}
+{% for subcategory in subcategories %}
+<section id="categorie-{{subcategory.super_category.super_category.number}}-{{subcategory.super_category.number}}-{{subcategory.number}}"
+         class="content-section">
+  <header>
+    <h1>{{subcategory.name}}</h1>
+  </header>
+  <p>
+    {{subcategory.description}}
+  </p>
+  <ul class="listing column">
+    {% for resource in subcategory.lkl_resource_set.all %}
+    <li>
+      <div class="column flex-fill">
+      {% if resource.upva_resource %}
+      <span class="resource-upva"> UPVA Resource </span>
+      {% endif %}
+      <span class="resource-title">{{resource.title}}</span>
+      <span class="resource-reference">{{resource.reference}}</span>
+      </div>
+      <a class="resource-link" href="{{resource.resource_URL}}" target="blank">Ga naar resource &nbsp <i class="fas fa-external-link-alt"></i></a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endfor %}
+{% for subsubcategory in subsubcategories %}
+<section id="categorie-{{subsubcategory.super_category.super_category.super_category.number}}-{{subsubcategory.super_category.super_category.number}}-{{subsubcategory.super_category.number}}-{{subsubcategory.number}}"
+         class="content-section">
+  <header>
+    <h1>{{subsubcategory.name}}</h1>
+  </header>
+  {% if request.user|has_group:"Leerling" %}
+  <a onclick="setSingleFoldWindowVisible('ps_profile_windows', '#category-{{subsubcategory.super_category.super_category.super_category.number}}-{{subsubcategory.super_category.super_category.number}}-{{subsubcategory.super_category.number}}-{{subsubcategory.number}}')"
+     href="{% url 'profile' %}#dimensie-{{subsubcategory.super_category.super_category.super_category.number}}">
+    Bekijk deze categorie in mijn profiel <i class="fas fa-long-arrow-alt-right"></i>
+  </a>
+  {% endif %}
+  <p>
+    {{subsubcategory.description|safe}}
+  </p>
+  <section>
+    <header>
+      <h1>Beginnend</h1>
+    </header>
+    {{subsubcategory.description_beginning|safe}}
+  </section>
+  <section>
+    <header>
+      <h1>In ontwikkeling</h1>
+    </header>
+    {{subsubcategory.description_in_development|safe}}
+  </section>
+  <section>
+    <header>
+      <h1>Startbekwaam</h1>
+    </header>
+    {{subsubcategory.description_starter|safe}}
+  </section>
+  <section>
+    <header>
+      <h1>Basisbekwaam</h1>
+    </header>
+    {{subsubcategory.description_basic_competence|safe}}
+  </section>
+  <section>
+    <header>
+      <h1>Vakbekwaam</h1>
+    </header>
+    {{subsubcategory.description_professional_competence|safe}}
+  </section>
+</section>
+{% endfor %}
+{% endblock %}
+
+
+{% block "scripts" %}
+{% load static %}
+  <script type="text/javascript" src="{% static 'webapp/js/showSection.js' %}"></script>
+  <script type="text/javascript" src="{% static 'webapp/js/savedFoldWindow.js' %}"></script>
+  <script type="text/javascript">
+    displaySavedFoldWindows("theory-nav");
+
+    const foldWindowChangeIcon = function(button, windowId) {
+      const buttonClasses = button.firstElementChild.classList;
+      if (buttonClasses.contains("fa-caret-right")) {
+        buttonClasses.remove("fa-caret-right");
+        buttonClasses.add("fa-caret-down");
+      }
+      else {
+        buttonClasses.remove("fa-caret-down");
+        buttonClasses.add("fa-caret-right");
+      }
+      foldWindowAndSave("theory-nav", windowId);
+    };
+
+    const currentUrl = location.href.split('#');
+
+    if (currentUrl[1] !== undefined) {
+      if (currentUrl[1].includes("dimensie")) {
+        setActiveOnWindowLoad("#sidebar-nav", true);
+      }
+      else if (currentUrl[1].includes("categorie")){
+        setActiveOnWindowLoad("#sidebar-nav", false);
+      }
+    }
+
+    const navDisplay = getStorageValueOrDefault("theory-nav", {});
+    for (category in navDisplay) {
+      if (navDisplay[category] === "flex") {
+        const options = document.querySelector(category);
+        const buttonClasses = options.parentElement.querySelector("button > i").classList;
+        buttonClasses.remove("fa-caret-right");
+        buttonClasses.add("fa-caret-down");
+      }
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% for category in dimensions.1.lkl_category_set.all %}
+<section class="accordion">
+  <header class="category-header">
+    <button onclick="foldWindowAndSave('ps_profile_windows', '#category-{{dimensions.1.number}}-{{category.number}}')" class="flex-fill">
+      {{ category.name }}
+    </button>
+    <a onclick="setSingleFoldWindowVisible('theory-nav', '#category-{{dimensions.1.number}}-{{category.number}}','-options', false, false)"
+       href="{% url 'theory' %}#categorie-{{dimensions.1.number}}-{{category.number}}">
+      Zie uitleg <i class="fas fa-long-arrow-alt-right"></i>
+    </a>
+  </header>
+  <div id="category-{{category.super_category.number}}-{{category.number}}"
+           class="profile-subcategories column default-hidden">
+
+  {% for subcategory in category.lkl_subcategory_set.all %}
+    <section class="accordion">
+      <header class="subcategory-header row">
+        <button onclick="foldWindowAndSave('ps_profile_windows', '#category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}')" class="flex-fill">
+          {{ subcategory.name }}
+        </button>
+        <a onclick="setSingleFoldWindowVisible('theory-nav', '#category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}','-options', true, false)"
+           href="{% url 'theory' %}#categorie-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}">
+          Zie uitleg <i class="fas fa-long-arrow-alt-right"></i>
+        </a>
+      </header>
+      <div id="category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}"
+               class="profile-subsubcategories column default-hidden">
+      {% for section in bpb_profile %}
+        {% if section.0 in subcategory.lkl_subsubcategory_set.all %}
+        <section id="categorie-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}"
+                 class="accordion">
+          <header class="subsubcategory-header">
+            <button onclick="foldWindowAndSave('ps_profile_windows', '#category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}')">
+              {{ section.0.name }}
+            </button>
+          </header>
+          <div id="category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}"
+               class="column default-hidden level-info">
+            {% include "webapp/includes/bpb_content.html" %}
+          </div>
+        {% endif %}
+      {% endfor %}
+      </div>
+    </section>
+  {% endfor %}
+  </div>
+</section>
+{% endfor %}

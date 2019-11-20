@@ -1,0 +1,37 @@
+{% extends "webapp/page_base.html" %}
+
+{% block "page-theme" %} orange-theme {% endblock %}
+
+{% block "page-header" %}
+<h1>Hoofdpagina</h1>
+{% endblock %}
+
+
+{% block "main-nav" %}
+{% load webapp_tags %}
+{% if request.user|has_group:"Leerling" %}
+<li><a href="{% url 'profile' %}">Mijn profiel</a></li>
+{% endif %}
+{% if request.user|has_group:"Docent" %}
+<li><a href="{% url 'shared_profiles' %}">Profielen gedeeld met mij</a></li>
+{% endif %}
+<li><a href="{% url 'theory'%}">Leer-Kracht-Lijn</a></li>
+{% endblock %}
+
+{% block "main-content" %}
+<article>
+  <header>
+    <h1>Welkom bij jouw eigen Amsterdamse Leer-kracht-lijn.</h1>
+  </header>
+  <p>
+  Deze Leer-Kracht-Lijn helpt jou om jouw eigen ontwikkeling tot leerkracht in
+  professionele termen te duiden, onderbouwen en verantwoorden. Het is een
+  gespreks- en reflectie instrument. Je maakt jouw eigen ontwikkeling zichtbaar
+  via de Leer-Kracht-Lijn voor jezelf en anderen.
+  </p>
+
+  <a href="{% url 'theory' %}">
+    Op deze pagina kun je meer uitleg vinden over de Amsterdamse Leer-Kracht-Lijn &nbsp <i class="fas fa-long-arrow-alt-right"></i>
+  </a>
+</article>
+{% endblock %}

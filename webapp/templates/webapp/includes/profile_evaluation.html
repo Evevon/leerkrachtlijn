@@ -1,0 +1,54 @@
+<section id="ps_charts" class="eval-charts">
+  <header>
+    <h1>
+      Primaire Proces
+    </h1>
+  </header>
+  <div class="row">
+  {% for category in ps_categories %}
+    <button class="tabbtn ps-chart-btn"
+            onclick="showTab(this, '.ps-chart-btn', '#ps-chart-{{category.number}}', '.ps-chart')">
+      {{ category.name }}
+    </button>
+  {% endfor %}
+  </div>
+
+  <figure id="ps-chart-1" class="ps-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+  <figure id="ps-chart-2" class="ps-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+  <figure id="ps-chart-3" class="ps-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+</section>
+
+<section id="bpb_charts" class="eval-charts">
+  <header class="main-content-header">
+    <h1>
+      Brede Professionele Basis
+    </h1>
+  </header>
+  <div class="row">
+  {% for category in bpb_categories %}
+    <button class="tabbtn bpb-chart-btn"
+            onclick="showTab(this, '.bpb-chart-btn', '#bpb-chart-{{category.number}}', '.bpb-chart')">
+      {{ category.name }}
+    </button>
+  {% endfor %}
+  </div>
+
+  <figure id="bpb-chart-1" class="bpb-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+  <figure id="bpb-chart-2" class="bpb-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+  <figure id="bpb-chart-3" class="bpb-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+  <figure id="bpb-chart-4" class="bpb-chart">
+    <canvas width="300" height="300"></canvas>
+  </figure>
+</section>

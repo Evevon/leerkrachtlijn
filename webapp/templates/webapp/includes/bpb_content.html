@@ -1,0 +1,113 @@
+<section class="level-container">
+   <header>
+     <h1>Mijn niveau</h1>
+   </header>
+   <p>
+     <span class="level">{{ section.2 }}</span>
+     <button class="iconbtn"
+             onclick="foldWindow('#update-category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}')">
+       <i class="fas fa-pencil-alt"></i>
+     </button>
+   </p>
+   <form id="update-category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}"
+         action="{% url 'update_bpb_profile' %}" method="POST" class="column default-hidden">
+     {% csrf_token %}
+     <input type="hidden" name="dimension" value="{{dimensions.1.number}}">
+     <input type="hidden" name="category" value="{{category.number}}">
+     <input type="hidden" name="subcategory" value="{{subcategory.number}}">
+     <input type="hidden" name="subsubcategory" value="{{section.0.number}}">
+     <fieldset>
+       <div>
+       <input id="level-category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}-B"
+              type="radio" name="level" value="B"
+              {% if section.2 == 'B' %}checked="checked"{% endif %}>
+       <label for="level-category-{{section.0.super_category.number}}-{{section.0.number}}-B">
+         Beginnend
+       </label>
+       </div>
+       <div>
+       <input id="level-category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}-IO"
+              type="radio" name="level" value="IO"
+              {% if section.2 == 'IO' %}checked="checked"{% endif %}>
+       <label for="level-category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}-IO">
+         In Ontwikkeling
+       </label>
+       </div>
+       <div>
+       <input id="level-category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}-S"
+              type="radio" name="level" value="S"
+              {% if section.2 == 'S' %}checked="checked"{% endif %}>
+       <label for="level-category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}-S">
+         Startbekwaam
+       </label>
+       </div>
+       <div>
+       <input id="level-category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}-BC"
+              type="radio" name="level" value="BC"
+              {% if section.2 == 'BC' %}checked="checked"{% endif %}>
+       <label for="level-category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}-BC">
+         Basisbekwaam
+       </label>
+       </div>
+       <div>
+       <input id="level-category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}-PC"
+              type="radio" name="level" value="PC"
+              {% if section.2 == 'PC' %}checked="checked"{% endif %}>
+       <label for="level-category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{section.0.number}}-PC">
+         Vakbekwaam
+       </label>
+       </div>
+     </fieldset>
+     <input type="submit" class="actionbtn" value="Wijzig niveau">
+   </form>
+</section>
+<section>
+   <p>
+     {{ section.0.short_description }}
+   </p>
+   <button class="foldbutton" onclick="foldSuggestionWindow(this, '#info-{{section.1}}')">
+     Toelichting niveaus <i class="fas fa-caret-right"></i>
+   </button>
+   <div id="info-{{section.1}}" class="folding_window default-hidden column level-explanation-block">
+     <section class="info_lvl_beginning">
+       <header>
+         <h1>Beginnend</h1>
+       </header>
+       <p>
+         {{section.0.description_beginning}}
+       </p>
+     </section>
+     <section class="info_lvl_indev">
+       <header>
+         <h1>In ontwikkeling</h1>
+       </header>
+       <p>
+         {{section.0.description_in_development}}
+       </p>
+     </section>
+     <section class="info_lvl_starter">
+       <header>
+         <h1>Startbekwaam</h1>
+       </header>
+       <p>
+         {{section.0.description_starter}}
+       </p>
+     </section>
+     <section class="info_lvl_basiccomp">
+       <header>
+         <h1>Basisbekwaam</h1>
+       </header>
+       <p>
+         {{section.0.description_basic_competence}}
+       </p>
+     </section>
+     <section class="info_lvl_profcomp">
+       <header>
+         <h1>Vakbekwaam</h1>
+       </header>
+       <p>
+         {{section.0.description_professional_competence}}
+       </p>
+     </section>
+   </div>
+</section>
