@@ -31,8 +31,9 @@
         </li>
         {% endblock %}
       </ul>
+      <a id="profile-link" href="{% url 'change_password' %}"><i class="fas fa-user-cog"></i></a>
       <a id="logout-link" href="{% url 'logout'%}?next={{request.path}}">
-        <i class="fas fa-sign-out-alt"></i> Logout
+        <i class="fas fa-sign-out-alt"></i> Log uit
       </a>
     </nav>
     {% block "secondary-nav" %}{% endblock %}

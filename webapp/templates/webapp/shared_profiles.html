@@ -8,10 +8,15 @@
 
 {% block "main-nav" %}
 {% load webapp_tags %}
+<li>
+  <a href="{% url 'theory'%}">
+    Mijn Leer-Kracht-Lijn
+  </a>
+</li>
 {% if request.user|has_group:"Leerling" %}
 <li>
   <a href="{% url 'profile' %}">
-    Mijn profiel
+    Mijn voortgang
   </a>
 </li>
 {% endif %}
@@ -21,16 +26,18 @@
     Profielen gedeeld met mij
   </a>
 </li>
+{% if request.user.is_superuser %}
 <li>
-  <a href="{% url 'theory'%}">
-    Leer-Kracht-Lijn theorie
+  <a href="{% url 'manage_accounts' %}">
+    Manage accounts
   </a>
 </li>
+{% endif %}
 {% endblock %}
 
 {% block "main-content" %}
 <section class="content-section">
-  <header id="main-content-header">
+  <header">
     <h1>Overzicht van profielen</h1>
   </header>
 
@@ -40,18 +47,20 @@
       <input onkeyup="filterSharedProfiles();" id="studentid" type="text" placeholder="Zoek student op studentId..">
     </fieldset>
   </nav>
-  <ul id="student-overview" class="listing">
-    {% for profile in request.user.accessable_user_profile.all %}
-    <li>
-      <span class="name-data">{{profile.profile_owner}}</span>
-      <span class="id-data">{{profile.student_id}}</span>
-      <form action="{% url 'view_shared_profile' %}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="profile_id" value="{{profile.pk}}">
-        <input class="actionbtn" type="submit" value="Bekijk profiel">
-      </form>
-    </li>
-    {% endfor %}
-  </ul>
+  <div class="listing-wrapper">
+    <ul id="student-overview" class="listing">
+      {% for profile in accessible_profiles %}
+      <li>
+        <span class="name-data">{{profile.profile_owner}}</span>
+        <span class="id-data">{{profile.student_id}}</span>
+        <form action="{% url 'view_shared_profile' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="profile_id" value="{{profile.pk}}">
+          <input class="actionbtn" type="submit" value="Bekijk profiel">
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
 </section>
 {% endblock %}

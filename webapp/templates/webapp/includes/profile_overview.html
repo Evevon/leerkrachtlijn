@@ -5,7 +5,7 @@
   <span>{{request.user}}</span>
   <span>
     Studenten id:
-    {% if request.user.student_id %}{{request.user.student_id}}
+    {% if request.user.user_profile.student_id %}{{request.user.user_profile.student_id}}
     {% else %}id niet bekend.{% endif %}
   </span>
   <span>
@@ -20,6 +20,7 @@
     <p>{{user_form.user_email}}</p>
     <button class="actionbtn" type="submit">Wijzig email</button>
   </form>
+  <a href="{% url 'change_password' %}">Wachtwoord aanpassen <i class="fas fa-long-arrow-alt-right"></i></a>
 </section>
 
 <section id="share-options">
@@ -29,7 +30,8 @@
   <p>
     Pas hier aan met welke docenten jij jouw profiel wilt delen. Docenten
     die jij geselecteerd hebt om mee te delen krijgen toegang tot jouw
-    volledige Leer-Kracht-Lijn profiel.
+    voortgangsdiagrammen en jouw antwoord op de vragen rondom jouw
+    professionele identiteit.
   </p>
 
   <nav class="row darktheme">
@@ -37,41 +39,43 @@
       <input id="teachernav" type="text" placeholder="Zoek docent op naam.." onkeyup="filterSharedTeachers();">
     </fieldset>
     <fieldset>
-      Show personen met wie ik mijn profiel:
+      Toon personen met wie ik mijn profiel:
       <input id="showshared" type="checkbox" checked="true" onchange="filterSharedTeachers();">
       <label for="showshared">wel deel</label>
       <input id="showunshared" type="checkbox" checked="true" onchange="filterSharedTeachers();">
       <label for="showunshared">niet deel</label>
     </fieldset>
   </nav>
-  <ul id="teacher-overview" class="listing">
-    {% for teacher in all_teachers %}
-    {% if request.user.user_profile in teacher.accessable_user_profile.all %}
-    <li class="shared">
-      {{ teacher }}
-      <form action="{% url 'share_profile' %}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="teacherId" value="{{teacher.id}}">
-        <input type="hidden" name="share" value="false">
-        <button type="submit" title="stop met delen">
-          <i class="fas fa-check"></i>
-          Gedeeld
-        </button>
-      </form>
-    </li>
-    {% else %}
-    <li class="unshared">
-      {{ teacher }}
-      <form action="{% url 'share_profile' %}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="teacherId" value="{{teacher.id}}">
-        <input type="hidden" name="share" value="true">
-        <button type="submit">
-          Deel mijn profiel
-        </button>
-      </form>
-    </li>
-    {% endif %}
-    {% endfor %}
-  </ul>
+  <div class="listing-wrapper">
+    <ul id="teacher-overview" class="listing">
+      {% for teacher in all_teachers %}
+      {% if request.user.user_profile in teacher.accessable_user_profile.all %}
+      <li class="shared">
+        {{ teacher }}
+        <form action="{% url 'share_profile' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="teacherId" value="{{teacher.id}}">
+          <input type="hidden" name="share" value="false">
+          <button type="submit" title="stop met delen">
+            <i class="fas fa-check"></i>
+            Gedeeld
+          </button>
+        </form>
+      </li>
+      {% else %}
+      <li class="unshared">
+        {{ teacher }}
+        <form action="{% url 'share_profile' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="teacherId" value="{{teacher.id}}">
+          <input type="hidden" name="share" value="true">
+          <button type="submit">
+            Deel mijn profiel
+          </button>
+        </form>
+      </li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
 </section>

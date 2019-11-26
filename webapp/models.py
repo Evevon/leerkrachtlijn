@@ -77,75 +77,79 @@ class User_Profile(models.Model):
 
 class Primary_Skills_Profile(models.Model):
     user_profile = models.OneToOneField(User_Profile, on_delete=models.CASCADE)
+    NO_LEVEL = 'N'
     BEGINNER = 'B'
     IN_DEVELOPMENT = 'IO'
     STARTER = 'S'
     BASIC_COMPETENCE = 'BC'
     PROFESSIONAL_COMPETENCE = 'PC'
     LEVEL_OPTIONS = [
+        (NO_LEVEL, 'Geen niveau'),
         (BEGINNER, 'Beginnend'),
         (IN_DEVELOPMENT, 'In Ontwikkeling'),
         (STARTER, 'Startbekwaam'),
         (BASIC_COMPETENCE, 'Basisbekwaam'),
         (PROFESSIONAL_COMPETENCE, 'Vakbekwaam'),
     ]
-    level_A_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_A_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_A_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_A_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_A_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_A_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_B_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_B_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_B_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_B_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_B_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_B_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_C_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_C_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_C_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_C_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_C_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_C_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
+    level_A_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_A_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_A_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_A_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_A_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_A_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_B_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_B_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_B_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_B_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_B_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_B_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_C_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_C_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_C_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_C_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_C_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_C_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
 
 
 class Broad_Professional_Basis_Profile(models.Model):
     user_profile = models.OneToOneField(User_Profile, on_delete=models.CASCADE)
+    NO_LEVEL = 'N'
     BEGINNER = 'B'
     IN_DEVELOPMENT = 'IO'
     STARTER = 'S'
     BASIC_COMPETENCE = 'BC'
     PROFESSIONAL_COMPETENCE = 'PC'
     LEVEL_OPTIONS = [
+        (NO_LEVEL, 'Geen niveau'),
         (BEGINNER, 'Beginnend'),
         (IN_DEVELOPMENT, 'In Ontwikkeling'),
         (STARTER, 'Startbekwaam'),
         (BASIC_COMPETENCE, 'Basisbekwaam'),
         (PROFESSIONAL_COMPETENCE, 'Vakbekwaam'),
     ]
-    level_D_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_D_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_D_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_D_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_D_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_D_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_E_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_E_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_E_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_E_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_E_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_E_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_F_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_F_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_F_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_F_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_F_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_G_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_G_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_G_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_G_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_G_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
-    level_G_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=BEGINNER)
+    level_D_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_D_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_D_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_D_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_D_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_D_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_E_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_E_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_E_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_E_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_E_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_E_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_F_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_F_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_F_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_F_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_F_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_G_1_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_G_1_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_G_2_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_G_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_G_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+    level_G_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
 
 
 class Professional_Identity_Profile(models.Model):

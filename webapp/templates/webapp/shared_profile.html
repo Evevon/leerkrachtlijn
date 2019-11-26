@@ -9,10 +9,15 @@
 
 {% block "main-nav" %}
 {% load webapp_tags %}
+<li>
+  <a href="{% url 'theory'%}">
+    Mijn Leer-Kracht-Lijn
+  </a>
+</li>
 {% if request.user|has_group:"Leerling" %}
 <li>
   <a href="{% url 'profile' %}">
-    Mijn profiel
+    Mijn voortgang
   </a>
 </li>
 {% endif %}
@@ -22,11 +27,13 @@
     Profielen gedeeld met mij
   </a>
 </li>
+{% if request.user.is_superuser %}
 <li>
-  <a href="{% url 'theory'%}">
-    Leer-Kracht-Lijn theorie
+  <a href="{% url 'manage_accounts' %}">
+    Manage accounts
   </a>
 </li>
+{% endif %}
 {% endblock %}
 
 

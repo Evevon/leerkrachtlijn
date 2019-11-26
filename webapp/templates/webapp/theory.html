@@ -3,15 +3,21 @@
 {% block "page-theme" %} orange-theme {% endblock %}
 
 {% block "page-header" %}
-<h1>Leer-Kracht-Lijn theorie</h1>
+<h1>Mijn Leer-Kracht-Lijn</h1>
 {% endblock %}
 
 {% block "main-nav" %}
 {% load webapp_tags %}
+<li>
+  <a class="active-nav-link"
+     href="{% url 'theory'%}">
+    Mijn Leer-Kracht-Lijn
+  </a>
+</li>
 {% if request.user|has_group:"Leerling" %}
 <li>
   <a href="{% url 'profile' %}">
-    Mijn profiel
+    Mijn voortgang
   </a>
 </li>
 {% endif %}
@@ -22,12 +28,13 @@
   </a>
 </li>
 {% endif %}
+{% if request.user.is_superuser %}
 <li>
-  <a class="active-nav-link"
-     href="{% url 'theory'%}">
-    Leer-Kracht-Lijn theorie
+  <a href="{% url 'manage_accounts' %}">
+    Manage accounts
   </a>
 </li>
+{% endif %}
 {% endblock %}
 
 {% block "sidebar-nav" %}
@@ -35,33 +42,32 @@
   <ul>
     <li>
       <i class="fas fa-chalkboard-teacher ps-color"></i>
-      <a onclick="setActive('#sidebar-nav', this, true)" href="#dimensie-{{dimensions.0.number}}" title="{{dimensions.0.short_description}}">
+      <a href="#dimensie-{{dimensions.0.number}}"
+         title="{{dimensions.0.short_description}}">
           {{ dimensions.0.name }}
       </a>
       <ul id="dimension-{{dimensions.0.number}}-options" class="supercategory-list">
-        {% for category in dimensions.0.lkl_category_set.all %}
+        {% for category in dimensions.0.lkl_category_set.all|dictsort:"number" %}
         <li>
-          <a onclick="setActive('#sidebar-nav', this)" href="#categorie-{{dimensions.0.number}}-{{category.number}}"
+          <a href="#categorie-{{dimensions.0.number}}-{{category.number}}"
              title="{{category.short_description}}">
             {{category.name}}
-          </a>
-          <button onclick="foldWindowChangeIcon(this, '#category-{{dimensions.0.number}}-{{category.number}}-options')">
             <i class="fas fa-caret-right"></i>
-          </button>
-          <ul id="category-{{dimensions.0.number}}-{{category.number}}-options" class="subcategory-list default-hidden">
-            {% for subcategory in category.lkl_subcategory_set.all %}
+          </a>
+          <ul id="category-{{dimensions.0.number}}-{{category.number}}-options"
+              class="subcategory-list default-hidden">
+            {% for subcategory in category.lkl_subcategory_set.all|dictsort:"number" %}
             <li>
-              <a onclick="setActive('#sidebar-nav', this)" href="#categorie-{{dimensions.0.number}}-{{category.number}}-{{subcategory.number}}"
+              <a href="#categorie-{{dimensions.0.number}}-{{category.number}}-{{subcategory.number}}"
                  title="{{subcategory.short_description}}">
-              {{subcategory.name}}
-              </a>
-              <button onclick="foldWindowChangeIcon(this, '#category-{{dimensions.0.number}}-{{category.number}}-{{subcategory.number}}-options')">
+                {{subcategory.name}}
                 <i class="fas fa-caret-right"></i>
-              </button>
+              </a>
+
               <ul id="category-{{dimensions.0.number}}-{{category.number}}-{{subcategory.number}}-options" class="subsubcategory-list default-hidden">
-                {% for subsubcategory in subcategory.lkl_subsubcategory_set.all %}
+                {% for subsubcategory in subcategory.lkl_subsubcategory_set.all|dictsort:"number" %}
                 <li>
-                  <a onclick="setActive('#sidebar-nav', this)" href="#categorie-{{dimensions.0.number}}-{{category.number}}-{{subcategory.number}}-{{subsubcategory.number}}"
+                  <a href="#categorie-{{dimensions.0.number}}-{{category.number}}-{{subcategory.number}}-{{subsubcategory.number}}"
                      title="{{subsubcategory.short_description}}">
                   {{subsubcategory.name}}
                   </a>
@@ -78,33 +84,31 @@
 
     <li>
       <i class="fas fa-school bpb-color"></i>
-      <a onclick="setActive('#sidebar-nav', this, true)" href="#dimensie-{{dimensions.1.number}}" title="{{dimensions.1.short_description}}">
+      <a href="#dimensie-{{dimensions.1.number}}" title="{{dimensions.1.short_description}}">
           {{ dimensions.1.name }}
       </a>
       <ul id="dimension-{{dimensions.1.number}}-options" class="supercategory-list">
-        {% for category in dimensions.1.lkl_category_set.all %}
+        {% for category in dimensions.1.lkl_category_set.all|dictsort:"number" %}
         <li>
-          <a onclick="setActive('#sidebar-nav', this)" href="#categorie-{{dimensions.1.number}}-{{category.number}}"
+          <a href="#categorie-{{dimensions.1.number}}-{{category.number}}"
              title="{{category.short_description}}">
             {{category.name}}
-          </a>
-          <button onclick="foldWindowChangeIcon(this, '#category-{{dimensions.1.number}}-{{category.number}}-options')">
             <i class="fas fa-caret-right"></i>
-          </button>
+          </a>
+
           <ul id="category-{{dimensions.1.number}}-{{category.number}}-options" class="subcategory-list default-hidden">
-            {% for subcategory in category.lkl_subcategory_set.all %}
+            {% for subcategory in category.lkl_subcategory_set.all|dictsort:"number" %}
             <li>
-              <a onclick="setActive('#sidebar-nav', this)" href="#categorie-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}"
+              <a href="#categorie-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}"
                  title="{{subcategory.short_description}}">
-              {{subcategory.name}}
-              </a>
-              <button onclick="foldWindowChangeIcon(this, '#category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-options')">
+                {{subcategory.name}}
                 <i class="fas fa-caret-right"></i>
-              </button>
+              </a>
+
               <ul id="category-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-options" class="subsubcategory-list default-hidden">
-                {% for subsubcategory in subcategory.lkl_subsubcategory_set.all %}
+                {% for subsubcategory in subcategory.lkl_subsubcategory_set.all|dictsort:"number" %}
                 <li>
-                  <a onclick="setActive('#sidebar-nav', this)" href="#categorie-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{subsubcategory.number}}"
+                  <a href="#categorie-{{dimensions.1.number}}-{{category.number}}-{{subcategory.number}}-{{subsubcategory.number}}"
                      title="{{subsubcategory.short_description}}">
                   {{subsubcategory.name}}
                   </a>
@@ -121,16 +125,14 @@
 
     <li>
       <i class="fas fa-id-card pi-color"></i>
-      <a onclick="setActive('#sidebar-nav', this)"
-         href="#dimensie-{{dimensions.2.number}}"
+      <a href="#dimensie-{{dimensions.2.number}}"
          title="{{dimensions.2.short_description}}">
         {{ dimensions.2.name }}
       </a>
       <ul class="supercategory-list">
-        {% for category in dimensions.2.lkl_category_set.all %}
+        {% for category in dimensions.2.lkl_category_set.all|dictsort:"number" %}
         <li>
-          <a onclick="setActive('#sidebar-nav', this)"
-             href="#categorie-{{dimensions.2.number}}-{{category.number}}"
+          <a href="#categorie-{{dimensions.2.number}}-{{category.number}}"
              title="{{category.short_description}}">
             {{category.name}}
           </a>
@@ -146,11 +148,13 @@
 {% block "main-content" %}
 <section id="overzicht" class="content-section">
   <header>
-    <h1>Welkom bij het Leer-Kracht-Lijn theorieoverzicht!</h1>
+    <h1>Welkom bij jouw eigen Leer-Kracht-Lijn!</h1>
   </header>
   <p>
     Gebruik de navigatiebalk aan de linkerkant van het scherm om informatie te
-    bekijken over de verschillende categorieen van de Leer-Kracht-Lijn.
+    bekijken over de verschillende categorieen van de Leer-Kracht-Lijn. Ook
+    kan je hier jouw niveau voor ieder onderdeel van de Leer-Kracht-Lijn
+    aanpassen.
   </p>
 
   <p>
@@ -191,130 +195,230 @@
 </section>
 {% endfor %}
 {% for category in categories %}
+{% if category.super_category.number != 3 %}
 <section id="categorie-{{category.super_category.number}}-{{category.number}}"
          class="content-section">
   <header>
     <h1>{{category.name}}</h1>
+    <a href="#dimensie-{{category.super_category.number}}">
+      <i class="fas fa-long-arrow-alt-left"></i> Ga naar bovenliggende dimensie
+    </a>
   </header>
   <p>
     {{category.description|safe}}
   </p>
+  <section class="content-bar">
+    <header>
+      <h1>Subcategorieen</h1>
+    </header>
+    <ul>
+      {% for subcategory in category.lkl_subcategory_set.all %}
+      <li>
+        <a href="#categorie-{{category.super_category.number}}-{{category.number}}-{{subcategory.number}}">
+          {{subcategory.name}} <i class="fas fa-long-arrow-alt-right"></i>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
 </section>
+{% endif %}
 {% endfor %}
+
+<section id="categorie-3-1" class="content-section">
+  <header>
+    <h1>Zicht krijgen en reflecteren op mijn identiteit</h1>
+    <a href="#dimensie-3">
+      <i class="fas fa-long-arrow-alt-left"></i> Ga naar bovenliggende dimensie
+    </a>
+  </header>
+  <p>
+    Het onderstaande tekstvak kan ingevuld worden met een reflectie op
+    de eigen identiteit. Deze reflectie kan je vervolgens in je profiel opslaan.
+    door op "opslaan" te klikken. Als je niet goed weet waar je moet
+    beginnen, bekijk dan de suggestievragen.
+  </p>
+  <button class="foldbutton" onclick="foldSuggestionWindow(this, '#sq1')">
+    Suggestievragen <i class="fas fa-caret-right"></i>
+  </button>
+  <ul id="sq1" class="suggestion-questions column default-hidden">
+    <li>Waarom wil je leerkracht worden?</li>
+    <li>
+      Hoe zie jijzelf als leerkracht? Denk aan bijvoorbeeld:
+      Ik ben een grappige leerkracht of Ik ben een lieve leerkracht.
+    </li>
+    <li>
+      Welke gedachten heb je over jezelf als je aan het lesgeven bent?
+      Denk aan bijvoorbeeld: Zullen de kinderen wel naar mij luisteren?
+    </li>
+    <li>Welke kwaliteiten heb je?</li>
+    <li>Welke valkuilen heb je?</li>
+    <li>Wat zijn voor jou belangrijke waarden?</li>
+    <li>Wat vind jij belangrijk als leerkracht?</li>
+    <li>Vanuit welke visie geef jij les?</li>
+    <li>Welke literatuur/documentaires/docenten inspireren jou en waarom?</li>
+    <li>
+      In hoeverre ervaar je wel eens spanning tussen je rol als student en als
+      leerkracht in opleiding?
+    </li>
+  </ul>
+  <form class="column question-answer-form" action="{% url 'update_pi_profile' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="answer-nr" value="answer_q1">
+    {{user_form.answer_q1}}
+    <button type="submit" class="actionbtn">
+      Opslaan
+    </button>
+  </form>
+</section>
+
+<section id="categorie-3-2" class="content-section">
+  <header>
+    <h1>Verhouding van mijn identiteit tot anderen</h1>
+    <a href="#dimensie-3">
+      <i class="fas fa-long-arrow-alt-left"></i> Ga naar bovenliggende dimensie
+    </a>
+  </header>
+  <p>
+    Door het onderstaande tekstvak in te vullen en op te slaan, kan
+    geformuleerd worden hoe de eigen identiteit zich verhoudt tot de
+    identiteit van het kind en van anderen in het professionele domein.
+    Als je niet goed weet waar je moet beginnen, bekijk dan de suggestievragen.
+  </p>
+  <button class="foldbutton" onclick="foldSuggestionWindow(this, '#sq2')">
+    Suggestievragen <i class="fas fa-caret-right"></i>
+  </button>
+  <ul id="sq2" class="suggestion-questions column default-hidden">
+    <li>
+      Welke overeenkomsten en verschillen zie ik tussen mijn achtergrond
+      en die van de kinderen in mijn klas?
+    </li>
+    <li>
+      Welke overeenkomsten en verschillen zie ik tussen mijn professionele
+      identiteit en die van mijn mentor en/of collega’s op school?
+    </li>
+    <li>
+      Welke overeenkomsten en verschillen zie ik tussen mijn visie op
+      onderwijs en die van anderen op school?
+    </li>
+    <li>
+      Hoe en wat kan ik leren van de professionele identiteit van mijn
+      mentor en/of collega’s op school?
+    </li>
+  </ul>
+
+  <form class="column question-answer-form" action="{% url 'update_pi_profile' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="answer-nr" value="answer_q2">
+    {{user_form.answer_q2}}
+    <button type="submit" class="actionbtn">
+      Opslaan
+    </button>
+  </form>
+</section>
+
+
 {% for subcategory in subcategories %}
 <section id="categorie-{{subcategory.super_category.super_category.number}}-{{subcategory.super_category.number}}-{{subcategory.number}}"
          class="content-section">
   <header>
     <h1>{{subcategory.name}}</h1>
+    <a href="#categorie-{{subcategory.super_category.super_category.number}}-{{subcategory.super_category.number}}">
+      <i class="fas fa-long-arrow-alt-left"></i> Ga naar bovenliggende categorie
+    </a>
   </header>
+
   <p>
     {{subcategory.description}}
   </p>
-  <ul class="listing column">
-    {% for resource in subcategory.lkl_resource_set.all %}
-    <li>
-      <div class="column flex-fill">
-      {% if resource.upva_resource %}
-      <span class="resource-upva"> UPVA Resource </span>
-      {% endif %}
-      <span class="resource-title">{{resource.title}}</span>
-      <span class="resource-reference">{{resource.reference}}</span>
-      </div>
-      <a class="resource-link" href="{{resource.resource_URL}}" target="blank">Ga naar resource &nbsp <i class="fas fa-external-link-alt"></i></a>
-    </li>
-    {% endfor %}
-  </ul>
+  <section class="content-bar">
+    <header>
+      <h1>Subcategorieen</h1>
+    </header>
+    <ul>
+      {% for subsubcategory in subcategory.lkl_subsubcategory_set.all %}
+      <li>
+        <a href="#categorie-{{subcategory.super_category.super_category.number}}-{{subcategory.super_category.number}}-{{subcategory.number}}-{{subsubcategory.number}}">
+          {{subsubcategory.name}} <i class="fas fa-long-arrow-alt-right"></i>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section>
+    <header>
+      <h1>Theorie</h1>
+    </header>
+    {% if subcategory.lkl_resource_set.all|length == 0 %}
+    Momenteel is er geen theorie beschikbaar voor deze categorie.
+    {% else %}
+    <div class="listing-wrapper">
+      <ul class="listing column">
+        {% for resource in subcategory.lkl_resource_set.all %}
+        <li>
+          <div class="column flex-fill">
+          {% if resource.upva_resource %}
+          <span class="resource-upva"> UPVA Resource </span>
+          {% endif %}
+          <span class="resource-title">{{resource.title}}</span>
+          <span class="resource-reference">{{resource.reference}}</span>
+          </div>
+          <a class="resource-link" href="{{resource.resource_URL}}" target="blank">Ga naar resource &nbsp <i class="fas fa-external-link-alt"></i></a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </section>
 </section>
 {% endfor %}
-{% for subsubcategory in subsubcategories %}
-<section id="categorie-{{subsubcategory.super_category.super_category.super_category.number}}-{{subsubcategory.super_category.super_category.number}}-{{subsubcategory.super_category.number}}-{{subsubcategory.number}}"
+
+{% for ssc in ps_profile %}
+<section id="categorie-{{ssc.0.super_category.super_category.super_category.number}}-{{ssc.0.super_category.super_category.number}}-{{ssc.0.super_category.number}}-{{ssc.0.number}}"
          class="content-section">
   <header>
-    <h1>{{subsubcategory.name}}</h1>
+    <h1>{{ssc.0.name}}</h1>
+    <a href="#categorie-{{ssc.0.super_category.super_category.super_category.number}}-{{ssc.0.super_category.super_category.number}}-{{ssc.0.super_category.number}}">
+      <i class="fas fa-long-arrow-alt-left"></i> Ga naar bovenliggende categorie
+    </a>
   </header>
-  {% if request.user|has_group:"Leerling" %}
-  <a onclick="setSingleFoldWindowVisible('ps_profile_windows', '#category-{{subsubcategory.super_category.super_category.super_category.number}}-{{subsubcategory.super_category.super_category.number}}-{{subsubcategory.super_category.number}}-{{subsubcategory.number}}')"
-     href="{% url 'profile' %}#dimensie-{{subsubcategory.super_category.super_category.super_category.number}}">
-    Bekijk deze categorie in mijn profiel <i class="fas fa-long-arrow-alt-right"></i>
-  </a>
-  {% endif %}
-  <p>
-    {{subsubcategory.description|safe}}
-  </p>
-  <section>
-    <header>
-      <h1>Beginnend</h1>
-    </header>
-    {{subsubcategory.description_beginning|safe}}
-  </section>
-  <section>
-    <header>
-      <h1>In ontwikkeling</h1>
-    </header>
-    {{subsubcategory.description_in_development|safe}}
-  </section>
-  <section>
-    <header>
-      <h1>Startbekwaam</h1>
-    </header>
-    {{subsubcategory.description_starter|safe}}
-  </section>
-  <section>
-    <header>
-      <h1>Basisbekwaam</h1>
-    </header>
-    {{subsubcategory.description_basic_competence|safe}}
-  </section>
-  <section>
-    <header>
-      <h1>Vakbekwaam</h1>
-    </header>
-    {{subsubcategory.description_professional_competence|safe}}
-  </section>
+
+  {% include "webapp/includes/subsubcategory_content.html" %}
 </section>
 {% endfor %}
-{% endblock %}
 
+{% for ssc in bpb_profile %}
+<section id="categorie-{{ssc.0.super_category.super_category.super_category.number}}-{{ssc.0.super_category.super_category.number}}-{{ssc.0.super_category.number}}-{{ssc.0.number}}"
+         class="content-section">
+  <header>
+    <h1>{{ssc.0.name}}</h1>
+    <a href="#categorie-{{ssc.0.super_category.super_category.super_category.number}}-{{ssc.0.super_category.super_category.number}}-{{ssc.0.super_category.number}}">
+      <i class="fas fa-long-arrow-alt-left"></i> Ga naar bovenliggende categorie
+    </a>
+  </header>
+  {% include "webapp/includes/subsubcategory_content.html" %}
+</section>
+{% endfor %}
+
+{% endblock %}
 
 {% block "scripts" %}
 {% load static %}
   <script type="text/javascript" src="{% static 'webapp/js/showSection.js' %}"></script>
   <script type="text/javascript" src="{% static 'webapp/js/savedFoldWindow.js' %}"></script>
   <script type="text/javascript">
-    displaySavedFoldWindows("theory-nav");
-
-    const foldWindowChangeIcon = function(button, windowId) {
-      const buttonClasses = button.firstElementChild.classList;
-      if (buttonClasses.contains("fa-caret-right")) {
-        buttonClasses.remove("fa-caret-right");
-        buttonClasses.add("fa-caret-down");
-      }
-      else {
-        buttonClasses.remove("fa-caret-down");
-        buttonClasses.add("fa-caret-right");
-      }
-      foldWindowAndSave("theory-nav", windowId);
-    };
-
-    const currentUrl = location.href.split('#');
-
-    if (currentUrl[1] !== undefined) {
-      if (currentUrl[1].includes("dimensie")) {
-        setActiveOnWindowLoad("#sidebar-nav", true);
-      }
-      else if (currentUrl[1].includes("categorie")){
-        setActiveOnWindowLoad("#sidebar-nav", false);
-      }
+    window.onhashchange = function() {
+      const currentUrl = location.href.split('#');
+      const sectionId = "#".concat(currentUrl[1]);
+      displaySection("#sidebar-nav");
+      unfoldNavTree("#sidebar-nav", sectionId);
     }
 
-    const navDisplay = getStorageValueOrDefault("theory-nav", {});
-    for (category in navDisplay) {
-      if (navDisplay[category] === "flex") {
-        const options = document.querySelector(category);
-        const buttonClasses = options.parentElement.querySelector("button > i").classList;
-        buttonClasses.remove("fa-caret-right");
-        buttonClasses.add("fa-caret-down");
-      }
+    window.onload = function() {
+      const currentUrl = location.href.split('#');
+      const sectionId = "#".concat(currentUrl[1]);
+      displaySection("#sidebar-nav");
+      unfoldNavTree("#sidebar-nav", sectionId);
     }
   </script>
 {% endblock %}

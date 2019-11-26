@@ -1,11 +1,3 @@
-const setActive = function(linkListId, clickedLink) {
-  const linkList = document.querySelectorAll(linkListId.concat(" li"));
-  linkList.forEach((linkListItem) => {
-    linkListItem.classList.remove("active-nav-link");
-  })
-  clickedLink.parentElement.classList.add("active-nav-link");
-}
-
 const showSection = function(sectionId) {
   const mainSections = document.querySelectorAll("#page-content .content-section");
   const selectedSection = document.querySelector(sectionId);
@@ -15,8 +7,17 @@ const showSection = function(sectionId) {
   });
 }
 
-const checkSection = function() {
-  const currentUrl = location.href.split('#');
+const setActive = function(linkListId, clickedLinkHref) {
+  const linkListDOMElement = document.querySelector(linkListId);
+  const linkList = linkListDOMElement.querySelectorAll(linkListId.concat(" li"));
+  const clickedLink = linkListDOMElement.querySelector("a[href='{0}']".format(clickedLinkHref));
+  linkList.forEach((linkListItem) => {
+    linkListItem.classList.remove("active-nav-link");
+  })
+  clickedLink.parentElement.classList.add("active-nav-link");
+}
+
+const checkSection = function(currentUrl) {
   const pagebody = document.querySelector("body");
   pagebody.classList.remove("orange-theme");
   pagebody.classList.remove("green-theme");
@@ -46,18 +47,42 @@ const checkSection = function() {
   }
 }
 
-const setActiveOnWindowLoad = function(navbarId) {
+const unfoldNavTree = function(navbarId, sectionId) {
+  const ulSelector = "{0} > ul > li > ul ul".format(navbarId);
+  const iconSelector = "{0} > ul > li > ul i".format(navbarId);
+  const linkIcons = document.querySelectorAll(iconSelector);
+  linkIcons.forEach((icon) => {
+    icon.classList.remove("fa-caret-down");
+    icon.classList.add("fa-caret-right");
+  });
+
+  const navTreeLists = document.querySelectorAll(ulSelector);
+  navTreeLists.forEach((treeList) => treeList.style.display = "none");
+
+  const sectionIdArray = sectionId.split('-');
+  if (sectionIdArray[0] === "#categorie") {
+    let categoryString = "{0}-".format(sectionIdArray[1]);
+    for (let i = 2, j = sectionIdArray.length; i < j; i++) {
+      categoryString = categoryString.concat(sectionIdArray[i]);
+      const categoryLinkSelector = "{0} a[href='#categorie-{1}']".format(navbarId, categoryString);
+      const categoryLink = document.querySelector(categoryLinkSelector);
+      if (categoryLink.firstElementChild !== null) {
+        const linkIconClasses = categoryLink.firstElementChild.classList;
+        linkIconClasses.remove("fa-caret-right");
+        linkIconClasses.add("fa-caret-down");
+        const categoryListSelector = "#category-{0}-options".format(categoryString);
+        const categoryList = document.querySelector(categoryListSelector);
+        categoryList.style.display = "flex";
+        categoryString = categoryString.concat("-");
+      }
+    }
+  }
+}
+
+const displaySection = function(navbarId) {
   const currentUrl = location.href.split('#');
-  const anchorLink = currentUrl[1] === undefined ? "overzicht" : currentUrl[1];
-  const selector = "{0} a[href='#{1}']".format(navbarId, anchorLink);
-  const activeLink = document.querySelector(selector);
-  setActive(navbarId, activeLink);
-}
-
-window.onhashchange = function() {
-  checkSection();
-}
-
-window.onload = function() {
-  checkSection();
+  const sectionId = "#".concat(currentUrl[1]);
+  checkSection(currentUrl);
+  setActive(navbarId, sectionId);
+  showSection(sectionId);
 }

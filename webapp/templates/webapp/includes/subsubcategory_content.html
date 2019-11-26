@@ -1,0 +1,172 @@
+<section class="level-container">
+  {% if ssc.2 == 'N' %}
+  <p>
+    Je hebt momenteel nog geen niveau voor deze categorie geselecteerd.
+    Selecteer jouw niveau voor deze categorie uit de hier onderstaande niveaus.
+  </p>
+  {% else %}
+  <p>
+    Je hebt een niveau geselecteerd voor deze categorie. Heb je toch het
+    gevoel dat je deze categorie nog niet beheerst, deselecteer dan je niveau.
+  </p>
+  <form {% if ssc.0.super_category.super_category.super_category.number == 1 %}
+          action= "{% url 'update_ps_profile' %}"
+        {% else %}
+          action= "{% url 'update_bpb_profile' %}"
+        {% endif %}
+        method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="dimension" value="{{ssc.0.super_category.super_category.super_category.number}}">
+    <input type="hidden" name="category" value="{{ssc.0.super_category.super_category.number}}">
+    <input type="hidden" name="subcategory" value="{{ssc.0.super_category.number}}">
+    <input type="hidden" name="subsubcategory" value="{{ssc.0.number}}">
+    <input type="hidden" name="level" value="N">
+    <input type="submit" class="actionbtn" value="Deselecteer mijn niveau">
+  </form>
+  {% endif %}
+  <section class="info_lvl_beginning {% if ssc.2 == 'B' %}selected-info-lvl{% endif %}">
+    <header>
+      <hgroup>
+        <h1>Beginnend</h1>
+        {% if ssc.2 == 'B' %}
+        <h2><i class="far fa-check-square"></i> Geselecteerd als mijn niveau</h2>
+        {% endif %}
+      </hgroup>
+    </header>
+    <p>
+      {{ssc.0.description_beginning|safe}}
+    </p>
+    {% if ssc.2 != 'B' %}
+    <form {% if ssc.0.super_category.super_category.super_category.number == 1 %}
+            action= "{% url 'update_ps_profile' %}"
+          {% else %}
+            action= "{% url 'update_bpb_profile' %}"
+          {% endif %}
+          method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="dimension" value="{{ssc.0.super_category.super_category.super_category.number}}">
+      <input type="hidden" name="category" value="{{ssc.0.super_category.super_category.number}}">
+      <input type="hidden" name="subcategory" value="{{ssc.0.super_category.number}}">
+      <input type="hidden" name="subsubcategory" value="{{ssc.0.number}}">
+      <input type="hidden" name="level" value="B">
+      <input type="submit" class="actionbtn" value="Selecteer als mijn niveau">
+    </form>
+    {% endif %}
+  </section>
+  <section class="info_lvl_indev  {% if ssc.2 == 'IO' %}selected-info-lvl{% endif %}">
+    <header>
+      <hgroup>
+        <h1>In ontwikkeling</h1>
+        {% if ssc.2 == 'IO' %}
+        <h2><i class="far fa-check-square"></i> Geselecteerd als mijn niveau</h2>
+        {% endif %}
+      </hgroup>
+    </header>
+    <p>
+      {{ssc.0.description_in_development|safe}}
+    </p>
+    {% if ssc.2 != 'IO' %}
+    <form {% if ssc.0.super_category.super_category.super_category.number == 1 %}
+            action= "{% url 'update_ps_profile' %}"
+          {% else %}
+            action= "{% url 'update_bpb_profile' %}"
+          {% endif %}
+          method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="dimension" value="{{dimensions.0.number}}">
+      <input type="hidden" name="category" value="{{ssc.0.super_category.super_category.number}}">
+      <input type="hidden" name="subcategory" value="{{ssc.0.super_category.number}}">
+      <input type="hidden" name="subsubcategory" value="{{ssc.0.number}}">
+      <input type="hidden" name="level" value="IO">
+      <input type="submit" class="actionbtn" value="Selecteer als mijn niveau">
+    </form>
+    {% endif %}
+  </section>
+  <section class="info_lvl_starter {% if ssc.2 == 'S' %}selected-info-lvl{% endif %}">
+    <header>
+      <hgroup>
+        <h1>Startbekwaam</h1>
+        {% if ssc.2 == 'S' %}
+        <h2><i class="far fa-check-square"></i> Geselecteerd als mijn niveau</h2>
+        {%endif%}
+      </hgroup>
+    </header>
+    <p>
+      {{ssc.0.description_starter|safe}}
+    </p>
+    {% if ssc.2 != 'S' %}
+    <form {% if ssc.0.super_category.super_category.super_category.number == 1 %}
+            action= "{% url 'update_ps_profile' %}"
+          {% else %}
+            action= "{% url 'update_bpb_profile' %}"
+          {% endif %}
+          method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="dimension" value="{{dimensions.0.number}}">
+      <input type="hidden" name="category" value="{{ssc.0.super_category.super_category.number}}">
+      <input type="hidden" name="subcategory" value="{{ssc.0.super_category.number}}">
+      <input type="hidden" name="subsubcategory" value="{{ssc.0.number}}">
+      <input type="hidden" name="level" value="S">
+      <input type="submit" class="actionbtn" value="Selecteer als mijn niveau">
+    </form>
+    {% endif %}
+  </section>
+  <section class="info_lvl_basiccomp {% if ssc.2 == 'BC' %}selected-info-lvl{% endif %}">
+    <header>
+      <hgroup>
+        <h1>Basisbekwaam</h1>
+        {% if ssc.2 == 'BC' %}
+        <h2><i class="far fa-check-square"></i> Geselecteerd als mijn niveau</h2>
+        {%endif%}
+      </hgroup>
+    </header>
+    <p>
+      {{ssc.0.description_basic_competence|safe}}
+    </p>
+    {% if ssc.2 != 'BC' %}
+    <form {% if ssc.0.super_category.super_category.super_category.number == 1 %}
+            action= "{% url 'update_ps_profile' %}"
+          {% else %}
+            action= "{% url 'update_bpb_profile' %}"
+          {% endif %}
+          method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="dimension" value="{{dimensions.0.number}}">
+      <input type="hidden" name="category" value="{{ssc.0.super_category.super_category.number}}">
+      <input type="hidden" name="subcategory" value="{{ssc.0.super_category.number}}">
+      <input type="hidden" name="subsubcategory" value="{{ssc.0.number}}">
+      <input type="hidden" name="level" value="BC">
+      <input type="submit" class="actionbtn" value="Selecteer als mijn niveau">
+    </form>
+    {% endif %}
+  </section>
+  <section class="info_lvl_profcomp {% if ssc.2 == 'PC' %}selected-info-lvl{% endif %}">
+    <header>
+      <hgroup>
+        <h1>Vakbekwaam</h1>
+        {% if ssc.2 == 'PC' %}
+        <h2><i class="far fa-check-square"></i> Geselecteerd als mijn niveau</h2>
+        {%endif%}
+      </hgroup>
+    </header>
+    <p>
+      {{ssc.0.description_professional_competence|safe}}
+    </p>
+    {% if ssc.2 != 'PC' %}
+    <form {% if ssc.0.super_category.super_category.super_category.number == 1 %}
+            action= "{% url 'update_ps_profile' %}"
+          {% else %}
+            action= "{% url 'update_bpb_profile' %}"
+          {% endif %}
+          method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="dimension" value="{{dimensions.0.number}}">
+      <input type="hidden" name="category" value="{{ssc.0.super_category.super_category.number}}">
+      <input type="hidden" name="subcategory" value="{{ssc.0.super_category.number}}">
+      <input type="hidden" name="subsubcategory" value="{{ssc.0.number}}">
+      <input type="hidden" name="level" value="PC">
+      <input type="submit" class="actionbtn" value="Selecteer als mijn niveau">
+    </form>
+    {% endif %}
+  </section>
+</section>

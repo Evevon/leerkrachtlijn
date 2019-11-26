@@ -1,0 +1,75 @@
+{% extends "webapp/page_base.html" %}
+
+{% block "page-theme" %} orange-theme {% endblock %}
+
+{% block "page-header" %}
+<h1>Accounts managen</h1>
+{% endblock %}
+
+
+{% block "main-nav" %}
+{% load webapp_tags %}
+<li>
+  <a href="{% url 'theory'%}">
+    Mijn Leer-Kracht-Lijn
+  </a>
+</li>
+{% if request.user|has_group:"Leerling" %}
+<li>
+  <a href="{% url 'profile' %}">
+    Mijn voortgang
+  </a>
+</li>
+{% endif %}
+{% if request.user|has_group:"Docent" %}
+<li>
+  <a href="{% url 'shared_profiles' %}">
+    Profielen gedeeld met mij
+  </a>
+</li>
+{% endif %}
+{% if request.user.is_superuser %}
+<li>
+  <a class="active-nav-link" href="{% url 'manage_accounts' %}">
+    Manage accounts
+  </a>
+</li>
+{% endif %}
+{% endblock %}
+
+{% block "secondary-nav" %}
+<nav id="secondary-nav" class="darktheme">
+  <ul id="secondary-nav-links" class="row navbar">
+    <li>
+      <a href="{% url 'manage_accounts' %}">
+        Account overzicht
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'manage_students' %}">
+        Leerling toevoegen
+      </a>
+    </li>
+    <li>
+      <a class="active-nav-link" href="{% url 'manage_teachers' %}">
+        Docent toevoegen
+      </a>
+    </li>
+  </ul>
+</nav>
+{% endblock %}
+
+{% block "main-content" %}
+<article class="content-section">
+  <section>
+    <header">
+      <h1>Nieuwe docent toevoegen</h1>
+    </header>
+    <form class="column" action="{% url 'create_teachers' %}" method="post">
+      {% csrf_token %}
+      {{form}}
+      <input class="actionbtn" type="submit" value="Maak nieuwe docent aan">
+    </form>
+  </section>
+</article>
+{% endblock %}
