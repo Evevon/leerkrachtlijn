@@ -74,6 +74,7 @@
     bpbLevelValues["{{section.1}}"] = levelMapping["{{section.2}}"];
   {% endfor %}
 </script>
+<script src="{% static 'webapp/js/html2pdf.bundle.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'webapp/js/showSection.js' %}"></script>
 <script type="text/javascript" src="{% static 'webapp/js/savedFoldWindow.js' %}"></script>
 <script type="text/javascript" src="{% static 'webapp/js/evalGraphs.js' %}"></script>
@@ -82,6 +83,51 @@
   const firstBPBChartBtn = document.querySelector(".bpb-chart-btn");
   showTab(firstPSChartBtn, '.ps-chart-btn', '#ps-chart-1', '.ps-chart');
   showTab(firstBPBChartBtn, '.bpb-chart-btn', '#bpb-chart-1', '.bpb-chart');
-  filterSharedTeachers();
+
+  const downloadImgs = function(e) {
+    const psChartList = document.querySelectorAll(".ps-chart");
+    const bpbChartList = document.querySelectorAll(".bpb-chart");
+    let activePsChart, activeBpbChart;
+    psChartList.forEach((chart) => {
+      if (chart.style.display === "flex") {
+        activePsChart = chart;
+      }
+      chart.style.display = "flex"
+    });
+    bpbChartList.forEach((chart) => {
+      if (chart.style.display === "flex") {
+        activeBpbChart = chart;
+      }
+      chart.style.display = "flex"
+    });
+    const chart1 = document.querySelector("#ps-chart-1");
+    const chart2 = document.querySelector("#ps-chart-2");
+    const chart3 = document.querySelector("#ps-chart-3");
+    const chart4 = document.querySelector("#bpb-chart-1");
+    const chart5 = document.querySelector("#bpb-chart-2");
+    const chart6 = document.querySelector("#bpb-chart-3");
+    const chart7 = document.querySelector("#bpb-chart-4");
+
+    var opt = {
+      margin:       20,
+      filename:     'mijn_leerkrachtlijn.pdf'
+    };
+    html2pdf().set(opt).from(chart1).toPdf().get('pdf').then(function (pdf) {
+      pdf.addPage();
+    }).from(chart2).toContainer().toCanvas().toPdf().get('pdf').then(function (pdf) {
+      pdf.addPage();
+    }).from(chart3).toContainer().toCanvas().toPdf().get('pdf').then(function (pdf) {
+      pdf.addPage();
+    }).from(chart4).toContainer().toCanvas().toPdf().get('pdf').then(function (pdf) {
+      pdf.addPage();
+    }).from(chart5).toContainer().toCanvas().toPdf().get('pdf').then(function (pdf) {
+      pdf.addPage();
+    }).from(chart6).toContainer().toCanvas().toPdf().get('pdf').then(function (pdf) {
+      pdf.addPage();
+    }).from(chart7).toContainer().toCanvas().toPdf().save();
+  }
+
+  document.querySelector("#downloadimgbtn").addEventListener("click", downloadImgs, false);
 </script>
+
 {% endblock %}

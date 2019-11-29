@@ -221,6 +221,14 @@
       {% endfor %}
     </ul>
   </section>
+  <form class="column note-form" action="{% url 'update_notes' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="note_category" value="{{category.super_category.number}}-{{category.number}}">
+    {{ note_form|getattribute:category }}
+    <button type="submit" class="actionbtn">
+      Notitie opslaan
+    </button>
+  </form>
 </section>
 {% endif %}
 {% endfor %}
@@ -357,8 +365,13 @@
         {% for resource in subcategory.lkl_resource_set.all %}
         <li>
           <div class="column flex-fill">
+          {% if not resource.upva_resource or not resource.hva_resource %}
           {% if resource.upva_resource %}
-          <span class="resource-upva"> UPVA Resource </span>
+          <span class="resource-upva"> UPvA Resource </span>
+          {% endif %}
+          {% if resource.hva_resource %}
+          <span class="resource-upva"> HvA Resource </span>
+          {% endif %}
           {% endif %}
           <span class="resource-title">{{resource.title}}</span>
           <span class="resource-reference">{{resource.reference}}</span>

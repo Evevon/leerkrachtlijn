@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from webapp.models import User_Profile, Primary_Skills_Profile, Broad_Professional_Basis_Profile, Professional_Identity_Profile
+from webapp.models import User_Profile, Primary_Skills_Profile, Broad_Professional_Basis_Profile, Professional_Identity_Profile, Category_Notes
 
 
 @receiver(post_save, sender=User)
@@ -30,3 +30,8 @@ def create_bpb_profile(sender, instance, created, **kwargs):
 def create_pi_profile(sender, instance, created, **kwargs):
     if created:
         new_pi_profile = Professional_Identity_Profile.objects.create(user_profile=instance)
+
+@receiver(post_save, sender=User_Profile)
+def create_category_notes(sender, instance, created, **kwargs):
+    if created:
+        new_category_notes = Category_Notes.objects.create(user_profile=instance)

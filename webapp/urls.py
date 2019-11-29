@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('registreer', views.register, name='register'),
     path('mijn_leerkrachtlijn/', views.theory, name='theory'),
     path('gedeelde_profielen/', views.shared_profiles, name='shared_profiles'),
     path('gedeelde_profielen/profiel', views.view_shared_profile, name='view_shared_profile'),
@@ -13,6 +14,7 @@ urlpatterns = [
     path('mijn_leerkrachtlijn/update/primaire_proces', views.update_ps_profile, name='update_ps_profile'),
     path('mijn_leerkrachtlijn/update/brede_professionele_basis', views.update_bpb_profile, name='update_bpb_profile'),
     path('mijn_leerkrachtlijn/update/professionele_identiteit', views.update_pi_profile, name='update_pi_profile'),
+    path('mijn_leerkrachtlijn/update/notities', views.update_notes, name='update_notes'),
     path('manage_accounts/', views.manage_accounts, name='manage_accounts'),
     path('manage_accounts/manage_leerlingen/', views.manage_students, name='manage_students'),
     path('manage_accounts/manage_docenten/', views.manage_teachers, name='manage_teachers'),

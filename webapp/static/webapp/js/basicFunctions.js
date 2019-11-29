@@ -82,7 +82,7 @@ const filterSharedTeachers = function() {
   }
 }
 
-const filterSharedProfiles = function() {
+const filterSharedProfiles = function(filterJoined=false) {
   const studentName = document.querySelector("#studentname");
   const studentId = document.querySelector("#studentid");
   const studentList = document.querySelectorAll("#student-overview li");
@@ -107,5 +107,44 @@ const filterSharedProfiles = function() {
         student.style.display = "none";
       }
     });
+  }
+
+  if (filterJoined) {
+    const rawJoinedSince = document.querySelector("#joined-since").value;
+
+    if (rawJoinedSince.length > 0) {
+      const sinceParts = rawJoinedSince.split("-");
+      const joinedSince = new Date(parseInt(sinceParts[0], 10),
+                                   parseInt(sinceParts[1], 10) - 1,
+                                   parseInt(sinceParts[2], 10));
+      studentList.forEach((student) => {
+        const rawJoinedData = student.querySelector(".joined-data").innerText;
+        const parts = rawJoinedData.split("/");
+        const studentDate = new Date(parseInt(parts[2], 10),
+                                     parseInt(parts[1], 10) - 1,
+                                     parseInt(parts[0], 10));
+        if (studentDate < joinedSince) {
+          student.style.display = "none";
+        }
+      });
+    }
+
+    const rawJoinedTill = document.querySelector("#joined-till").value;
+    if (rawJoinedTill.length > 0) {
+      const tillParts = rawJoinedTill.split("-");
+      const joinedTill = new Date(parseInt(tillParts[0], 10),
+                                   parseInt(tillParts[1], 10) - 1,
+                                   parseInt(tillParts[2], 10));
+      studentList.forEach((student) => {
+        const rawJoinedData = student.querySelector(".joined-data").innerText;
+        const parts = rawJoinedData.split("/");
+        const studentDate = new Date(parseInt(parts[2], 10),
+                                     parseInt(parts[1], 10) - 1,
+                                     parseInt(parts[0], 10));
+        if (studentDate > joinedTill) {
+          student.style.display = "none";
+        }
+      });
+    }
   }
 }

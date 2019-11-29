@@ -11,10 +11,14 @@
           crossorigin="anonymous">
   </head>
   <body id="leerkrachtlijn" class="column {% block "page-theme" %}{% endblock %}">
-    <header id="page-header" class="row">
+    <header id="page-header" class="column">
+      <div class="column">
       {% block "page-header" %}
       <h1>Template header</h1>
       {% endblock %}
+      </div>
+      {% load static %}
+      <img class="bigimg" src="{% static 'webapp/img/uvaenhva.png' %}" alt="UvA en HvA">
     </header>
     <nav id="main-nav" class="navbar row">
       <ul class="row flex-fill">

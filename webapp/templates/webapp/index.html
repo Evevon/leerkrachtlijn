@@ -39,6 +39,8 @@
 
 {% block "main-content" %}
 <article>
+  {% load static %}
+
   <header>
     <h1>Welkom bij jouw eigen Amsterdamse Leer-kracht-lijn.</h1>
   </header>
@@ -52,5 +54,22 @@
   <a href="{% url 'theory' %}">
     Op deze pagina kun je meer uitleg vinden over de Amsterdamse Leer-Kracht-Lijn <i class="fas fa-long-arrow-alt-right"></i>
   </a>
+  <br><br>
+
+  <figure>
+    <img src="{% static 'webapp/img/leerkrachtlijn.png' %}" alt="leerkrachtlijn">
+    <caption>De Amsterdamse Leer-Kracht-Lijn bestaat uit drie dimensies. Van rechts naar links: primaire proces; brede professionele basis; professionele identiteit.</caption>
+  </figure>
+  <br>
+  <p>
+    De Amsterdamse Leer-Kracht-Lijn wordt gebruikt door de leraaropleidingen van de UPvA en HvA.
+  </p>
+
+  <figure>
+    <img class="avgimg" src="{% static 'webapp/img/samenopleidenamsterdam.jpg' %}" alt="Samen opleiden in Amsterdam">
+  </figure>
+
+
+
 </article>
 {% endblock %}

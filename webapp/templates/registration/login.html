@@ -3,10 +3,7 @@
   {% if form.errors %}
   <header class="form-errors">
     <p>Er is iets fout gegaan tijdens het inloggen. Los de volgende problemen
-    op en probeer opnieuw in te loggen:</p>
-    <ul>
-      <li>Je gebruikersnaam en wachtwoord komen niet overeen.</li>
-    </ul>
+    op en probeer opnieuw in te loggen.</p>
   </header>
   {% endif %}
 
@@ -28,10 +25,12 @@
     <fieldset>
       <legend>Inloggegevens</legend>
       <p>
+        {{ form.username.errors }}
         {{ form.username.label_tag }}
         {{ form.username }}
       </p>
       <p>
+        {{ form.password.errors }}
         {{ form.password.label_tag }}
         {{ form.password }}
       </p>
@@ -43,5 +42,8 @@
 
   <a href="{% url 'password_reset' %}">
     Wachtwoord vergeten? <i class="fas fa-long-arrow-alt-right"></i>
+  </a>
+  <a href="{% url 'register' %}">
+    Nog geen account? Vraag een account aan <i class="fas fa-long-arrow-alt-right"></i>
   </a>
 {% endblock %}

@@ -59,6 +59,7 @@ class LKL_Resource(models.Model):
     categories = models.ManyToManyField(LKL_Subcategory);
     title = models.CharField(max_length=300)
     upva_resource = models.BooleanField(default=False)
+    hva_resource = models.BooleanField(default=False)
     reference = models.CharField(max_length=500)
     resource_URL = models.URLField()
     def __str__(self):
@@ -73,6 +74,22 @@ class User_Profile(models.Model):
     profile_shared_list = models.ManyToManyField(settings.AUTH_USER_MODEL,
       related_name='accessable_user_profile',
       limit_choices_to={'groups__name': 'Docent'}, blank=True)
+    def __str__(self):
+        return "{}".format(self.profile_owner)
+
+
+class Category_Notes(models.Model):
+    user_profile = models.OneToOneField(User_Profile, on_delete=models.CASCADE)
+    cat_a_note = models.TextField(blank=True)
+    cat_b_note = models.TextField(blank=True)
+    cat_c_note = models.TextField(blank=True)
+    cat_d_note = models.TextField(blank=True)
+    cat_e_note = models.TextField(blank=True)
+    cat_f_note = models.TextField(blank=True)
+    cat_g_note = models.TextField(blank=True)
+
+    def __str__(self):
+        return "{}".format(self.user_profile.profile_owner)
 
 
 class Primary_Skills_Profile(models.Model):
@@ -109,6 +126,9 @@ class Primary_Skills_Profile(models.Model):
     level_C_2_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
     level_C_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
     level_C_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
+
+    def __str__(self):
+        return "{}".format(self.user_profile.profile_owner)
 
 
 class Broad_Professional_Basis_Profile(models.Model):
@@ -151,8 +171,14 @@ class Broad_Professional_Basis_Profile(models.Model):
     level_G_3_1 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
     level_G_3_2 = models.CharField(max_length=2, choices=LEVEL_OPTIONS, default=NO_LEVEL)
 
+    def __str__(self):
+        return "{}".format(self.user_profile.profile_owner)
+
 
 class Professional_Identity_Profile(models.Model):
     user_profile = models.OneToOneField(User_Profile, on_delete=models.CASCADE)
     answer_q1 = models.TextField(blank=True)
     answer_q2 = models.TextField(blank=True)
+
+    def __str__(self):
+        return "{}".format(self.user_profile.profile_owner)

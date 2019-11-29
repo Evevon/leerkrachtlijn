@@ -47,7 +47,7 @@
     </li>
     <li>
       <a href="{% url 'manage_students' %}">
-        Leerling toevoegen
+        Student toevoegen
       </a>
     </li>
     <li>
@@ -63,9 +63,20 @@
 <article class="content-section">
 
     <nav class="row darktheme">
+      <fieldset class="column">
+        <input onkeyup="filterSharedProfiles(true);" id="studentname" type="text" placeholder="Zoek student op naam..">
+        <input onkeyup="filterSharedProfiles(true);" id="studentid" type="text" placeholder="Zoek student op studentId..">
+      </fieldset>
       <fieldset>
-        <input onkeyup="filterSharedProfiles();" id="studentname" type="text" placeholder="Zoek student op naam..">
-        <input onkeyup="filterSharedProfiles();" id="studentid" type="text" placeholder="Zoek student op studentId..">
+        <div>
+          <label for="joined-since">Accounts geregistreerd vanaf:</label>
+          <input onchange="filterSharedProfiles(true);" id="joined-since" type="date">
+        </div>
+        <div>
+          <label for="joined-till">Accounts geregistreerd tot:</label>
+          <input onchange="filterSharedProfiles(true);" id="joined-till" type="date">
+        </div>
+
       </fieldset>
     </nav>
 
@@ -84,6 +95,10 @@
             {% endif %}
             <span>{{account.email}}</span>
           </div>
+          <div>
+            registratie: <span class="joined-data">{{account.date_joined|date:"d/m/Y"}}</span>
+          </div>
+
 
           {% if not account.is_superuser %}
           {% if account.is_active %}
@@ -100,13 +115,12 @@
           </form>
           {% endif %}
           {% else %}
-          <div>Admin account: kan niet gewijzigd worden</div>
+          <div>Admin: wijzigen niet mogelijk</div>
           {% endif %}
         </li>
         {% endfor %}
       </ul>
     </div>
-
 </article>
 
 {% endblock %}

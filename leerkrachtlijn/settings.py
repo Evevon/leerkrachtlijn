@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '&i7_esevhk8c-=dw(1(5%r+7!i-!36u@bcj=t@ab-dh87(!ax)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -130,4 +130,3 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 # figure out after setting everything up on the server!
 #EMAIL_HOST = 'localhost'
 #EMAIL_PORT = 1025
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

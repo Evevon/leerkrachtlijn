@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8">
+    <title>Leer-Kracht-Lijn</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'webapp/css/master.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+          crossorigin="anonymous">
+  </head>
+  <body id="login" class="column orange-theme">
+    <header class="column">
+      <div id="header-icons" class="row">
+        <i class="fas fa-graduation-cap neutral-color"></i>
+        <i class="fas fa-circle neutral-color"></i>
+        <i class="fas fa-dumbbell neutral-color"></i>
+        <i class="fas fa-circle neutral-color"></i>
+        <i class="fas fa-chart-line neutral-color"></i>
+      </div>
+
+      <h1 class="row">Amsterdamse Leer-Kracht-Lijn</h1>
+    </header>
+    <main id="page-content" class="column wrapper">
+      {% if registered %}
+      <strong>
+        Je hebt je met succes geregistreerd. Je account zal zo snel mogelijk
+        goedgekeurd worden door de administratie. Zodra je account is goedgekeurd,
+        kan je inloggen op de website.
+      </strong>
+      {% endif %}
+      <form class="column" action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input class="actionbtn" type="submit" value="Maak account aan">
+      </form>
+      <a href="{% url 'login' %}">
+        <i class="fas fa-long-arrow-alt-left"></i> Terug naar inlogscherm
+      </a>
+    </main>
+  </body>
+</html>

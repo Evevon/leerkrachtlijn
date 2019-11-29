@@ -52,17 +52,31 @@ input[type="submit"] {
 
 fieldset { border: none; }
 
+figure {
+  width: 800px;
+  text-align: center;
+}
+
 h1 { font-family: 'Bai Jamjuree', sans-serif; }
+
+img {
+  max-width: 800px;
+}
 
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="date"] {
   border: 2px solid var(--mid-gray-color);
   border-radius: 0.5em;
   color: var(--dark-gray-color) !important;
   font-weight: 400 !important;
   padding: 0.1em 0.4em;
   width: 220px;
+}
+
+input[type="date"] {
+  width: 150px;
 }
 
 section {
@@ -310,7 +324,8 @@ strong {
 .navbar li { padding: 1em; }
 .navbar a { padding: 1em 0; }
 
-.question-answer-form textarea {
+.question-answer-form textarea,
+.note-form textarea {
   margin: 1em 0;
 }
 
@@ -375,18 +390,27 @@ strong {
   margin-bottom: 0.3em;
 }
 
-
 #page-header {
-  align-items: center;
-  height: 200px;
-  justify-content: center;
   order: 2;
+}
+
+#page-header > div {
+  align-items: center;
+  height: 150px;
+  justify-content: flex-end;
 }
 
 #page-header h1 {
   font-size: 200%;
   font-weight: bold;
   color: white;
+  padding-bottom: 20px;
+}
+
+#page-header img {
+  align-self: flex-end;
+  padding-right: 100px;
+  padding-bottom: 20px;
 }
 
 #main-nav {
@@ -579,4 +603,12 @@ strong {
 .content-bar > ul > li {
   padding: 2em 1em;
   flex: 1;
+}
+
+.bigimg {
+  width: 650px;
+}
+
+.avgimg {
+  width: 500px;
 }

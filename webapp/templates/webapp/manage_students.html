@@ -47,7 +47,7 @@
     </li>
     <li>
       <a class="active-nav-link" href="{% url 'manage_students' %}">
-        Leerling toevoegen
+        Student toevoegen
       </a>
     </li>
     <li>
@@ -63,12 +63,12 @@
 <article class="content-section">
   <section>
     <header">
-      <h1>Nieuwe leerling toevoegen</h1>
+      <h1>Nieuwe student toevoegen</h1>
     </header>
     <form class="column" action="{% url 'create_students' %}" method="POST">
       {% csrf_token %}
       {{form}}
-      <input class="actionbtn" type="submit" value="Maak nieuwe leerling aan">
+      <input class="actionbtn" type="submit" value="Maak nieuwe student aan">
     </form>
   </section>
 </article>

@@ -12,6 +12,17 @@ import operator
 from .models import *
 
 
+class NoteForm(forms.Form):
+    cat_a_note = forms.CharField(widget=forms.Textarea(attrs={"rows":8, "cols":80}), required=False)
+    cat_b_note = forms.CharField(widget=forms.Textarea(attrs={"rows":8, "cols":80}), required=False)
+    cat_c_note = forms.CharField(widget=forms.Textarea(attrs={"rows":8, "cols":80}), required=False)
+    cat_d_note = forms.CharField(widget=forms.Textarea(attrs={"rows":8, "cols":80}), required=False)
+    cat_e_note = forms.CharField(widget=forms.Textarea(attrs={"rows":8, "cols":80}), required=False)
+    cat_f_note = forms.CharField(widget=forms.Textarea(attrs={"rows":8, "cols":80}), required=False)
+    cat_g_note = forms.CharField(widget=forms.Textarea(attrs={"rows":8, "cols":80}), required=False)
+
+
+
 class UserForm(forms.Form):
     user_email = forms.EmailField(required=False)
     answer_q1 = forms.CharField(widget=forms.Textarea(attrs={"rows":8, "cols":80}), required=False)
@@ -25,9 +36,9 @@ class UserForm(forms.Form):
 
 
 class NewStudentForm(forms.Form):
-    studentnaam = forms.CharField();
-    studentId = forms.CharField();
-    email = forms.EmailField();
+    studentnaam = forms.CharField()
+    studentId = forms.CharField()
+    email = forms.EmailField()
 
     def clean(self):
         cleaned_data = super().clean()
@@ -40,6 +51,38 @@ class NewStudentForm(forms.Form):
             self.add_error("email", "Dit email adres wordt al door een account gebruikt.")
         if User_Profile.objects.filter(student_id=student_id):
             self.add_error("studentId", "Er bestaat al een student met dit studentenId.")
+
+
+class SignUpForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    studentId = forms.CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        studentname = cleaned_data.get("studentnaam")
+        email = cleaned_data.get("email")
+        student_id = cleaned_data.get("studentId")
+        if User.objects.filter(username=studentname).exists():
+            self.add_error("studentnaam", "Er bestaat al een account met deze naam.")
+        if User.objects.filter(email=email).exists():
+            self.add_error("email", "Dit email adres wordt al door een account gebruikt.")
+        if User_Profile.objects.filter(student_id=student_id):
+            self.add_error("studentId", "Er bestaat al een student met dit studentenId.")
+
+    def save(self, commit=True):
+        user = super(UserCreationForm, self).save(commit=False)
+        user.email = self.cleaned_data["email"]
+        cleanedstudentid = self.cleaned_data["studentId"]
+        user.save()
+        user.user_profile.student_id = cleanedstudentid
+        user.is_active = False
+        user.save()
+        user.user_profile.save()
+        return user
 
 
 class NewTeacherForm(forms.Form):
@@ -55,6 +98,23 @@ class NewTeacherForm(forms.Form):
         if User.objects.filter(email=email).exists():
             self.add_error("email", "Dit email adres wordt al door een account gebruikt.")
 
+
+def register(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            context = {
+                'form' : SignUpForm(),
+                'registered' : True,
+            }
+            return render(request, 'webapp/register.html', context)
+    else:
+        form = SignUpForm()
+    context = {
+        'form' : form,
+    }
+    return render(request, 'webapp/register.html', context)
 
 @login_required
 def change_password(request):
@@ -229,6 +289,32 @@ def update_pi_profile(request):
 
 
 @login_required
+def update_notes(request):
+    if has_group(request.user, "Leerling"):
+        notes = request.user.user_profile.category_notes
+        note_form = NoteForm(request.POST)
+        if note_form.is_valid():
+            category_mapping = {
+                '1-1' : 'a',
+                '1-2' : 'b',
+                '1-3' : 'c',
+                '2-1' : 'd',
+                '2-2' : 'e',
+                '2-3' : 'f',
+                '2-4' : 'g',
+            }
+            numeric_cat = request.POST['note_category']
+            cat = category_mapping[numeric_cat]
+            note_cat = "cat_{}_note".format(cat)
+            new_note = note_form.cleaned_data[note_cat]
+            setattr(notes, note_cat, new_note)
+            notes.save()
+        return HttpResponseRedirect("{}#categorie-{}".format(reverse('theory'), numeric_cat))
+    else:
+        return Http404("Deze webpagina bestaat niet!")
+
+
+@login_required
 def shared_profiles(request):
     if has_group(request.user, "Docent"):
         profiles = request.user.accessable_user_profile.filter(profile_owner__is_active=True)
@@ -276,9 +362,18 @@ def theory(request):
     ps_profile = get_profile_data(profile.primary_skills_profile, ps_subsubcategories)
     bpb_profile = get_profile_data(profile.broad_professional_basis_profile, bpb_subsubcategories)
     user_pi_profile = request.user.user_profile.professional_identity_profile
+    user_notes =  request.user.user_profile.category_notes
     user_form = UserForm()
     user_form.fields['answer_q1'].initial = user_pi_profile.answer_q1
     user_form.fields['answer_q2'].initial = user_pi_profile.answer_q2
+    note_form = NoteForm()
+    note_form.fields['cat_a_note'].initial = user_notes.cat_a_note
+    note_form.fields['cat_b_note'].initial = user_notes.cat_b_note
+    note_form.fields['cat_c_note'].initial = user_notes.cat_c_note
+    note_form.fields['cat_d_note'].initial = user_notes.cat_d_note
+    note_form.fields['cat_e_note'].initial = user_notes.cat_e_note
+    note_form.fields['cat_f_note'].initial = user_notes.cat_f_note
+    note_form.fields['cat_g_note'].initial = user_notes.cat_g_note
     context = {
         'dimensions' : dimensions,
         'categories' : categories,
@@ -287,6 +382,8 @@ def theory(request):
         'ps_profile' : ps_profile,
         'bpb_profile' : bpb_profile,
         'user_form' : user_form,
+        'user_notes' : user_notes,
+        'note_form' : note_form,
     }
     return render(request, 'webapp/theory.html', context)
 
