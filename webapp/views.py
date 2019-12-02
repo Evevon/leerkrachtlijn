@@ -454,7 +454,7 @@ def create_students(request):
             send_mail(
                 'Log in met je leerkrachtlijn account',
                 """
-Beste student, er is voor jou een account aangemaakt op -domeinnaam-.
+Beste student, er is voor jou een account aangemaakt op amsterdamseleerkrachtlijn.nl.
 Login kan met de volgende gegevens: \n
 Gebruikersnaam: {} \n
 Wachtwoord: {}
@@ -488,7 +488,7 @@ def create_teachers(request):
             send_mail(
                 'Log in met je leerkrachtlijn account',
                 """
-Beste docent, er is voor jou een account aangemaakt op -domeinnaam-.
+Beste docent, er is voor jou een account aangemaakt op amsterdamseleerkrachtlijn.nl.
 Login kan met de volgende gegevens: \n
 Gebruikersnaam: {} \n
 Wachtwoord: {}
