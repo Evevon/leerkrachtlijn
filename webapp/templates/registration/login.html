@@ -4,6 +4,16 @@
   <header class="form-errors">
     <p>Er is iets fout gegaan tijdens het inloggen. Los de volgende problemen
     op en probeer opnieuw in te loggen.</p>
+    {% for field in form %}
+    <ul>
+    {% for error in field.errors %}
+    <li>{{ error|escape }}</li>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+    <li>{{ error|escape }}</li>
+    {% endfor %}
+    </ul>
   </header>
   {% endif %}
 

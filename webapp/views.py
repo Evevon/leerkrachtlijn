@@ -74,7 +74,7 @@ class SignUpForm(UserCreationForm):
             self.add_error("studentId", "Er bestaat al een student met dit studentenId.")
 
     def save(self, commit=True):
-        user = super(UserCreationForm, self).save(commit=False)
+        user = super(SignUpForm, self).save(commit=False)
         user.email = self.cleaned_data["email"]
         cleanedstudentid = self.cleaned_data["studentId"]
         user.save()
@@ -108,6 +108,16 @@ def register(request):
                 'form' : SignUpForm(),
                 'registered' : True,
             }
+            send_mail('Je accountregistratie voor de Amsterdamse leerkrachtlijn is geslaagd',
+"""
+Beste student,\n
+er is onder dit e-mail adres een account geregistreerd op amsterdamseleerkrachtlijn.nl.
+Het account zal zo snel mogelijk goedgekeurd worden. Zodra dit is gebeurd, kan je
+inloggen op jouw account.
+""",
+            'webmaster@amsterdamseleerkrachtlijn.nl',
+            [request.POST['email']],
+            fail_silently=False,)
             return render(request, 'webapp/register.html', context)
     else:
         form = SignUpForm()
@@ -454,12 +464,12 @@ def create_students(request):
             send_mail(
                 'Log in met je leerkrachtlijn account',
                 """
-Beste student, er is voor jou een account aangemaakt op -domeinnaam-.
+Beste student, er is voor jou een account aangemaakt op amsterdamseleerkrachtlijn.nl.
 Login kan met de volgende gegevens: \n
 Gebruikersnaam: {} \n
 Wachtwoord: {}
                 """.format(studentname, generatedPassword),
-                'webmaster@localhost',
+                'webmaster@amsterdamseleerkrachtlijn.nl',
                 [request.POST['email']],
                 fail_silently=False,
             )
