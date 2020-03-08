@@ -103,7 +103,8 @@ def register(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            newUser = form.save()
+
             context = {
                 'form' : SignUpForm(),
                 'registered' : True,
@@ -118,6 +119,10 @@ inloggen op jouw account.
             'webmaster@amsterdamseleerkrachtlijn.nl',
             [request.POST['email']],
             fail_silently=False,)
+
+            studentGroup = Group.objects.get(name="Leerling")
+            studentGroup.user_set.add(newUser)
+
             return render(request, 'webapp/register.html', context)
     else:
         form = SignUpForm()
@@ -498,7 +503,7 @@ def create_teachers(request):
             send_mail(
                 'Log in met je leerkrachtlijn account',
                 """
-Beste docent, er is voor jou een account aangemaakt op amsterdamseleerkrachtlijn.nl.
+Beste docent, er is voor jou een account aangemaakt op -domeinnaam-.
 Login kan met de volgende gegevens: \n
 Gebruikersnaam: {} \n
 Wachtwoord: {}
